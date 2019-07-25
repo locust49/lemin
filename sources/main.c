@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:44:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/07/24 19:50:20 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/07/25 19:43:00 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ int main(int argc, char **argv)
 	if (argc == 1)
 		get_input(&input);
 	else
-		print_usage(argv);
+		print_usage(argv[1]);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/07/24 22:06:22 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/07/25 19:42:40 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct	s_map
 void    		get_input(t_map *in);
 
 
-void			print_usage(char **argv);
+void			print_usage(char *filename);
 void			print_error(void);
 void			print_false(void);
 

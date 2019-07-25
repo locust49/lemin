@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:57:38 by slyazid           #+#    #+#             */
-/*   Updated: 2019/07/24 22:24:40 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/07/25 20:57:16 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_roomname(char *line)
 	return (name);
 }
 
-void	ft_strore_inout(t_map *in, char *line)
+void	ft_strore_inout(t_map *in, char *line, int *row)
 {
 	if (!ft_strcmp(line, "##start"))
 	{	
@@ -41,7 +41,7 @@ void	ft_strore_inout(t_map *in, char *line)
 			print_false();
 		in->inout[0].id = 0;
 		in->inout[0].name = ft_roomname(line);
-		printf("start stored\n");
+		*row += 1;
 	}
 	if (!ft_strcmp(line, "##end"))
 	{	
@@ -50,9 +50,8 @@ void	ft_strore_inout(t_map *in, char *line)
 			print_false();
 		in->inout[1].id = 1;
 		in->inout[1].name = ft_roomname(line);
-		printf("end stored\n");
+		*row += 1;
 	}
-	printf("wewe\n");
 }
 
 void	get_input(t_map *in)
@@ -67,11 +66,13 @@ void	get_input(t_map *in)
 		row == 0 ? in->ants = ft_atoi(line) : 0;
 		if (*line == 'L')
 			print_false();
-		ft_strore_inout(in, line);
+		ft_strore_inout(in, line, &row);
 		if (*line == '#' && (ft_strcmp(line, "##end") || ft_strcmp(line, "##start")))
 			continue ;
 		in->next = 0;
 	}
-	//gnl == -1 ? print_error() : 0;
+	printf("row = %d\n", row);
+	row != 2 ? print_usage("No start/end") : 0;
+	gnl == -1 ? print_error() : 0;
 	printf("Valid map");
 }
