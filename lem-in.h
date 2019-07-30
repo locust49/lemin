@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/07/25 19:42:40 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/07/30 01:03:49 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ void    		get_input(t_map *in);
 
 void			print_usage(char *filename);
 void			print_error(void);
-void			print_false(void);
+void			print_false(int Letter);
 
 # endif
