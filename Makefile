@@ -22,7 +22,7 @@ LIBR		=	libft
 LBIN		=	libft/libft.a
 
 HDRS		=	-I lem-in.h
-FILENAMES	=	parse.c error_handling.c main.c
+FILENAMES	=	parse.c error_handling.c print_tools.c main.c
 
 SRC_DIR		=	sources
 OBJ_DIR 	=	objects

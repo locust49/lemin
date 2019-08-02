@@ -6,13 +6,13 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 16:56:45 by slyazid           #+#    #+#             */
-/*   Updated: 2019/07/30 01:27:07 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/07/30 21:21:00 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../lem-in.h"
 
-void	print_usage(char *filename)
+void	print_usage(string filename)
 {
 	ft_putendl_fd("usage:\n\t./lem-in < [valid map]", 2);
 	if (filename && ft_strcmp(filename, "No start/end"))
