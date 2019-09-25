@@ -21,8 +21,8 @@ NAME		=	lem-in
 LIBR		=	libft
 LBIN		=	libft/libft.a
 
-HDRS		=	-I lem-in.h
-FILENAMES	=	parse.c error_handling.c print_tools.c main.c
+HDRS		=	-I./headers
+FILENAMES	=	file_manager.c checker.c links.c rooms.c hashing.c bfs.c queue.c main.c
 
 SRC_DIR		=	sources
 OBJ_DIR 	=	objects
@@ -33,26 +33,26 @@ OBJS		=	$(addprefix $(OBJ_DIR)/, $(FILENAMES:.c=.o))
 all: $(NAME)
 
 $(NAME):	$(OBJS)
-	@make -s -C $(LIBR)
-	@$(CMPL) $(FLGS) -o $(NAME) $(SRCS) $(HDRS) $(LBIN)
-	@echo "$(_GREEN)[↳]$(_END) $(_BLUE)$(_BOLD)$(_UNDER)$(NAME)$(_END) .. lemme in trough the right path."
+		@make -s -C $(LIBR)
+		@$(CMPL) $(FLGS) -o $(NAME) $(SRCS) $(HDRS) $(LBIN)
+		@echo "$(_GREEN)[↳]$(_END) $(_BLUE)$(_BOLD)$(_UNDER)$(NAME)$(_END) .. lemme in trough the right path."
 
-$(OBJS):	$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(HDR) | $(OBJ_DIR)
-	@$(CC) $(FLAGS) -c $< -o $@ 
-	@echo "$(_YELLOW)[√]$(_END) Create $@"
+$(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c $(HDR) | $(OBJ_DIR)
+		@$(CC) $(HDRS) $(FLAGS) -c $< -o $@ 
+		@echo "$(_YELLOW)[√]$(_END) Create $@"
 
 $(OBJ_DIR):
-	@mkdir $(OBJ_DIR)
-	@echo "$(_YELLOW)[√]$(_END) Creating $(OBJ_DIR) folder."
+		@mkdir $(OBJ_DIR)
+		@echo "$(_YELLOW)[√]$(_END) Creating $(OBJ_DIR) folder."
 
 clean:
-	@make clean -C $(LIBR)
-	@rm -rf  $(OBJ_DIR)
-	@echo "$(_RED)[×]$(_END) Cleaning $(PROJECT) objects."
+		@make clean -C $(LIBR)
+		@rm -rf  $(OBJ_DIR)
+		@echo "$(_RED)[×]$(_END) Cleaning $(PROJECT) objects."
 
 fclean: clean
-	@make fclean -C $(LIBR)
-	@rm -f $(NAME)
-	@echo "$(_BLUE)[↺]$(_END) Back to the 0, where the choice is one."
+		@make fclean -C $(LIBR)
+		@rm -f $(NAME)
+		@echo "$(_BLUE)[↺]$(_END) Back to the 0, where the choice is one."
 
 re: fclean all
