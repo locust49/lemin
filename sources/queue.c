@@ -6,77 +6,74 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 15:24:47 by slyazid           #+#    #+#             */
-/*   Updated: 2019/09/23 14:49:41 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/10/04 16:38:37 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bfs.h"
 
-t_queue	*new_node(t_room *room, t_queue *precedent)
+t_queue	*new_node(t_room *room)
 {
 	t_queue	*new;
 
 	new = (t_queue*)malloc(sizeof(t_queue));
 	new->rooms = room;
 	new->next = NULL;
-	new->prec = precedent;
+	new->prec = NULL;
 	return (new);
 }
 
-void	enqueue(t_queue **queue, t_room *room)
+/*
+**	add to queue and set the new head;
+*/
+
+void	enqueue(t_htqueue **queue, t_room *room)
 {
-	if (!*queue)
+	t_queue *new;
+
+	new = new_node(room);
+	if (!(*queue)->head)
 	{
-		(*queue) = new_node(room, NULL);
-		(*queue)->head = *queue;
-		(*queue)->tail = *queue;
+		(*queue)->head = new;
+		(*queue)->tail = new;
+		return ;
 	}
-	else
-	{
-		(*queue)->tail->next = new_node(room, (*queue)->tail);
-		(*queue)->tail = (*queue)->tail->next;
-	}
+	new->prec = (*queue)->tail;
+	(*queue)->tail->next = new;
+	(*queue)->tail = new;
 }
 
 /*
-**	dequeue from tail; and return the dequeued :3 + update the queue;
+**	dequeue from tail; and free the dequeued :3 + update the queue;
 */
 
-void	print_queue(t_queue *queue)
+void	dequeue(t_htqueue **queue)
 {
-	while (queue)
-	{
-		printf("[%s]-->", queue->rooms->name);
-		queue = queue->next;
-	}
+	t_queue	*head;
+
+	head = NULL;
+	if (!(*queue)->head)
+		return ;
+	head = (*queue)->head;
+	(*queue)->head = ((*queue)->head->next) ? (*queue)->head->next : NULL;
+	head ? free(head) : 0; // not sure
 }
 
-t_queue	*dequeue(t_queue **queue)
+// void	visited(t_htqueue **queue)
+// {
+
+// }
+
+void	unvisit(t_htqueue **queue)
 {
-	t_queue	*last;
+	t_queue *tmp;
 
-	if (!*queue)
-		return (NULL);
-	if (*queue && !(*queue)->next)
+	tmp = (*queue)->head;
+	while (tmp)
 	{
-		last = *queue;
-		*queue = NULL;
-		return (last);
+		tmp->rooms->visited = 0;
+		dequeue(queue);
+		tmp = (*queue)->head;
 	}
-	last = (*queue)->tail;
-	(*queue)->tail = (*queue)->tail->prec;
-	(*queue)->tail->next = NULL;
-	return (last);
+	free(tmp);
 }
-
-/*
-**	i don't think we need a loop to free if we gonna dequeue it :D
-**	void	free_queue(t_queue *queue)
-**	{
-**		t_queue	*tmp;
-**
-**		while (queue)
-**		{
-**		}
-**	}
-*/

@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 13:11:46 by slyazid           #+#    #+#             */
-/*   Updated: 2019/09/22 19:34:52 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/09/30 15:58:39 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_link	*new_link(t_data *data, int link_id)
 	if (!(new = (t_link*)malloc(sizeof(t_link))))
 		exit(-1);
 	new->to = data->r_tab[link_id]->head;
+	new->flow = 1;
 	new->next = NULL;
 	return (new);
 }

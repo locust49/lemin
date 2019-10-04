@@ -6,11 +6,11 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 14:33:38 by slyazid           #+#    #+#             */
-/*   Updated: 2019/09/21 14:32:02 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/09/30 18:12:36 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/lem_in.h"
+#include "lem_in.h"
 
 t_bool	str_ispnum(t_string line)
 {

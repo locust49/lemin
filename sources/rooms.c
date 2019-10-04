@@ -6,13 +6,13 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 16:06:01 by slyazid           #+#    #+#             */
-/*   Updated: 2019/09/22 21:01:25 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/10/01 21:04:33 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/lem_in.h"
+#include "lem_in.h"
 
-t_room		*new_room(t_string line, int thisid)
+static t_room		*new_room(t_string line, int thisid)
 {
 	t_room	*new;
 
@@ -20,6 +20,9 @@ t_room		*new_room(t_string line, int thisid)
 		exit(-1);
 	new->id = thisid;
 	new->visited = 0;
+	new->capacity = 1;
+	new->parent = NULL;
+	new->parents = NULL;
 	new->name = ft_strsub(line, 0, ft_strchr(line, ' ') - line);
 	new->links = NULL;
 	new->next = NULL;

@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/09/23 14:47:34 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/10/04 21:37:08 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ void	quit(void)
 
 void	get_ants(t_data *data, t_string line)
 {
-	// if (ft_strcmp(line, "2147483647") > 0)
-	// 	quit();
+	if (ft_strlen(line) >= 10 && ft_strcmp(line, "2147483647") > 0)
+		quit();
 	data->ants = ft_atoi(line);
+	// printf("ants = %d\n", data->ants);
 	if (data->ants <= 0)
 		quit();
-	printf("ants = %d\n", data->ants);
 }
 
 void	store_room(t_data *data, t_string line, t_ind *ices)
@@ -95,15 +95,16 @@ void	get_graph(t_data *data, t_string line, t_ind *ices)
 			data->info.link == -1 ? data->info.link = 0 : 0;
 			store_link(data, line);
 		}
-		else if (ft_strchr(line, '-')
-		&& ((before_links(*data) == false) || ft_strchr(line, ' ')))
+		else if ((ft_strchr(line, '-')
+		&& ((before_links(*data) == false) || ft_strchr(line, ' '))))
 			quit();
 	}
 	else if (str_iscomment(line) == false && str_iscommand(data, line) == false
 		&& str_room_link(line) == false)
 		quit();
 	else if (str_iscomment(line) == true || str_iscommand(data, line) == true)
-		ft_putendl("command or comment");
+		;
+		//ft_putendl("command or comment");
 }
 
 /*
@@ -157,6 +158,27 @@ void	free_data(t_data *data)
 	}
 }
 
+// void	free_visited(t_heap *heap)
+// {
+// 	t_htqueue *visited_q;
+
+// 	visited_q = NULL;
+// 	if (heap->visited)
+// 	{
+// 		visited_q = heap->visited;
+// 		visited_q->tail->next = NULL;
+// 		while (visited_q->head)
+// 		{
+// 			dequeue(&visited_q);
+// 			if (visited_q == NULL)
+// 				break ;
+// 			printf("loop\n");
+// 		}
+// 	}
+// 	printf("no\n");
+// 	// free(heap->visited);
+// }
+
 int		main(void)
 {
 	int			gnl;
@@ -164,6 +186,7 @@ int		main(void)
 	t_file		*file;
 	t_data		data;
 	t_ind		ices;
+	t_heap		heap;
 
 	file = NULL;
 	initialize_data(&data, &ices);
@@ -183,6 +206,19 @@ int		main(void)
 	line ? free(line) : 0;
 	valid_data(data) ? print_file(file) : quit();
 	// get_next_node(&data, &ices);
+	int i = -1;
+	while (++i < 10)
+	{
+		printf("bfs \x1b[31:0m%d\x1b[0:0m\n", i);
+		printf("queue = %p\n", heap.queue);
+		bfs(&ices, &heap);
+		// print_ices(&ices);
+		// rupdate_graph(&ices, ices.end);
+		update_graph(&ices);
+	
+		// print_short(&ices);
+	}
+	// free_visited(&heap);
 	free_data(&data);
 	free_file(&file);
 }

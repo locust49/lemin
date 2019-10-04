@@ -6,11 +6,11 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 18:32:26 by slyazid           #+#    #+#             */
-/*   Updated: 2019/09/21 14:29:46 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/09/30 18:12:28 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/lem_in.h"
+#include "lem_in.h"
 
 int			convert_letter(int c)
 {
