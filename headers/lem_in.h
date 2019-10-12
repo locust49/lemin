@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/04 20:59:28 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/10/12 16:55:58 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,12 @@ typedef struct			s_htparent
 struct					s_room
 {
 	int				id;
+	int				visit_group;
 	int				capacity;
 	t_string		name;
 	t_link			*links;
 	int				visited;
+	t_room			*group_parent;
 	t_room			*parent;
 	t_htparent		*parents;
 	struct s_room	*next;
@@ -83,6 +85,39 @@ typedef struct			s_htqueue
 	struct s_queue	*head;
 	struct s_queue	*tail;
 }						t_htqueue;
+
+typedef struct			s_path
+{
+	t_htparent			*paths;
+	struct s_path		*next;
+}						t_path;
+
+typedef struct			s_htpath
+{
+	int					mod_num;
+	struct s_path		*head;
+	struct s_path		*tail;
+}						t_htpath;
+
+typedef struct			s_group
+{
+	t_htpath			*path;
+	int					path_num;
+	int					node_num;
+	struct s_group		*next;
+}						t_group;
+
+typedef struct			s_htgroup
+{
+	t_group				*head;
+	t_group				*tail;
+}						t_htgroup;
+
+typedef struct 			s_ingroup
+{
+	t_room				*room;
+	struct s_ingroup	*next;
+}						t_ingroup;
 
 
 typedef struct			s_heap
@@ -119,8 +154,9 @@ void					print_links(t_link *lnk);
 void					print_parent(t_ind *ices);
 void					print_short(t_ind *ices);
 void					print_parents(t_htparent *parents);
+void					print_plist(t_data *data);
 
-void					get_next_node(t_htqueue **queue, t_room *rooms);
+void					get_next_node(t_htqueue **queue, t_room *rooms, t_room *end, t_room *start);
 void					enqueue(t_htqueue **queue, t_room *room);
 void					dequeue(t_htqueue **queue);
 void					link_queue(t_queue **queue, t_queue *new);
@@ -131,10 +167,10 @@ void					update(t_link *link, t_room *room);
 
 void					bfs(t_ind *ices, t_heap *heap);
 void					init_heap(t_heap *heap);
-void    				update_graph(t_ind *ices);
-void    				rupdate_graph(t_ind *ices, t_room *room);
+void					update_graph(t_ind *ices);
+void					rupdate_graph(t_ind *ices, t_room *room);
 void					unvisit(t_htqueue **queue);
 void					free_bfs(t_heap *heap);
 
-void				    add_parents(t_htparent **parents, t_room *toadd);
+void				    add_parents(t_htparent **parents, t_room *toadd, t_room *end);
 #endif

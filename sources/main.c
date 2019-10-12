@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/04 21:37:08 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/10/12 16:46:19 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,27 +158,6 @@ void	free_data(t_data *data)
 	}
 }
 
-// void	free_visited(t_heap *heap)
-// {
-// 	t_htqueue *visited_q;
-
-// 	visited_q = NULL;
-// 	if (heap->visited)
-// 	{
-// 		visited_q = heap->visited;
-// 		visited_q->tail->next = NULL;
-// 		while (visited_q->head)
-// 		{
-// 			dequeue(&visited_q);
-// 			if (visited_q == NULL)
-// 				break ;
-// 			printf("loop\n");
-// 		}
-// 	}
-// 	printf("no\n");
-// 	// free(heap->visited);
-// }
-
 int		main(void)
 {
 	int			gnl;
@@ -204,18 +183,21 @@ int		main(void)
 		line ? free(line) : 0;
 	}
 	line ? free(line) : 0;
-	valid_data(data) ? print_file(file) : quit();
+	//valid_data(data) ? print_file(file) : quit();
 	// get_next_node(&data, &ices);
 	int i = -1;
-	while (++i < 10)
+	heap.nopath = 1;
+	while (heap.nopath)
 	{
-		printf("bfs \x1b[31:0m%d\x1b[0:0m\n", i);
-		printf("queue = %p\n", heap.queue);
+		i++;
+		printf("\x1b[31:0mbfs %d\x1b[0:0m\n", i);
+		// printf("queue = %p\n", heap.queue);
 		bfs(&ices, &heap);
+		// print_plist(&data);
 		// print_ices(&ices);
 		// rupdate_graph(&ices, ices.end);
 		update_graph(&ices);
-	
+		// get_groups(&ices, &heap);
 		// print_short(&ices);
 	}
 	// free_visited(&heap);

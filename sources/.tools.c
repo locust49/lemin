@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   .tools.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:47:33 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/03 21:55:54 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/10/09 18:04:29 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/lem_in.h"
+
+void	print_plist(t_data *data)
+{
+	int i = -1;
+	t_room *tmp;
+
+	while (++i < MAX_NODE)
+	{
+		if (data->r_tab[i])
+		{
+			tmp = data->r_tab[i]->head;
+			while (tmp)
+			{
+				if (tmp->parent)
+					printf("parent of node %s is %s\n", tmp->name, tmp->parent->name);
+				tmp = tmp->next;
+			}
+		}
+	}
+}
 
 void	print_parent(t_ind *ices)
 {

@@ -3,41 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   update_graph.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:04:17 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/03 22:59:13 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/10/12 16:54:13 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-// void	update_default(t_ind *ices)
-// {
-// 	t_room  *room;
-// 	t_link  *link;
-
-// 	room = ices->end;
-// 	while (room != ices->start)
-// 	{
-// 		link = room->parent->links;
-// 		while (link)
-// 		{
-// 			if (link->to == room)
-// 			{
-// 				link->flow = 1 - link->flow;
-// 				break ;
-// 			}
-// 			link = link->next;
-// 		}
-// 		room->capacity = 1 - room->capacity;
-// 		if (room != ices->start)
-// 			add_parents(&(room->parents), room->parent);	
-// 		room = room->parent;
-// 	}
-// }
-
-void	update(t_link *link, t_room *room)
+void	update_minus_one(t_link *link, t_room *room)
 {
 	t_link  *links;
 
@@ -56,21 +31,18 @@ void	update(t_link *link, t_room *room)
 void	update_graph(t_ind *ices)
 {
 	t_room  *room;
-	// t_link  *link;
 
 	room = ices->end;
 	while (room != ices->start)
 	{
-		printf("%s\n", room->name);
-		//sleep(1);
 		if (room->capacity == 0 && room->parent->capacity == 0)
-			update(room->links, room->parent);
+			update_minus_one(room->links, room->parent);
 		else
 		{
-			update(room->parent->links, room);
-			add_parents(&(room->parents), room->parent);
-			room->capacity = 0;
+			update_minus_one(room->parent->links, room);
+			// add_parents(&(room->parents), room->parent, ices->end);
 		}
+		room->capacity = 1 - room->capacity;
 		room = room->parent;
 	}
 }

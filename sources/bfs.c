@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bfs.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 13:19:26 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/04 21:37:12 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/10/12 16:55:39 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_heap(t_heap *heap)
 {
-	heap->nopath = false;
+	heap->nopath = 0;
 	if (!(heap->queue = (t_htqueue *)malloc(sizeof(t_htqueue))) ||
 		!(heap->visited = (t_htqueue *)malloc(sizeof(t_htqueue))))
 		exit(-1);
@@ -29,35 +29,39 @@ void	init_heap(t_heap *heap)
 **		add links of nodeX to the queue
 */
 
-void	get_next_node(t_htqueue **queue, t_room *room)
+void	get_next_node(t_htqueue **queue, t_room *room, t_room *end, t_room *start)
 {
 	t_link	*links;
 
 	links = room->links;
 	while (links)
 	{
-		if (links->to->visited == 0 && links->flow)
+		if (links->to->visited == 0 && links->flow == 1 && links->to != start)
 		{
 			enqueue(queue, links->to);
 			links->to->parent = room;
 			links->to->visited = 1;
+			if (links->to == end)
+				break;
 		}
 		links = links->next;
 	}
 }
 
-void	get_parent_node(t_htqueue **queue, t_room *room, t_room *start)
+void	get_parent_node(t_htqueue **queue, t_room *room, t_room *end, t_room *start)
 {
-	t_parent	*links;
+	t_link	*links;
 
-	links = room->parents->head;
+	links = room->links;
 	while (links)
 	{
-		if (links->room != start)
+		if (links->to->visited == 0 && links->flow == 0 && links->to != start)
 		{
-			enqueue(queue, links->room);
-			links->room->visited = 1;
-			links->room->parent = room;
+			enqueue(queue, links->to);
+			links->to->parent = room;
+			links->to->visited = 1;
+			if (links->to == end)
+				break;
 		}
 		links = links->next;
 	}
@@ -72,39 +76,30 @@ void	free_heap(t_heap **heap)
 	}
 }
 
-
 /*
 **	free /!\
 */
 
-void	choose_path(t_heap *heap, t_room *start)
+void	choose_path(t_heap *heap, t_room *start, t_room *end)
 {
 	t_room *room;
 
 	room = heap->queue->head->rooms;
 	if (room && room == start)
-		get_next_node(&(heap->queue), room);
+		get_next_node(&(heap->queue), room, end, start);
 	else
 	{
-		// printf("\troom->cap = %s: %d\n\troom->par->cap = %s: %d\n", room->name, room->capacity, room->parent->name, room->parent->capacity);
-		if (room->capacity == 0 && room->parent->capacity == 1)
+		if (room->capacity == 0 && room->parent->capacity == 0)
 		{
-			get_parent_node(&(heap->queue), room, start);
+			get_next_node(&(heap->queue), room, end, start);
+			get_parent_node(&(heap->queue), room, end, start);
 		}
-		else if (room->capacity == 0 && room->parent->capacity == 0)
-		{
-			//printf("HEEEEEERRRRREEEE*************\n");
-			get_next_node(&(heap->queue), room);
-			get_parent_node(&(heap->queue), room, start);
-		}
-		else/* (room->capacity == 1 && room->parent->capacity == 1)*/
-		{
-			get_next_node(&(heap->queue), room);
-			//printf("***********first\n");
-		}
+		else if (room->capacity == 0 && room->parent->capacity == 1)
+			get_parent_node(&(heap->queue), room, end, start);
+		else
+			get_next_node(&(heap->queue), room, end, start);
 		
 	}
-	//printf("***\n");
 	enqueue(&(heap->visited), heap->queue->head->rooms);
 	dequeue(&(heap->queue));
 }
@@ -135,22 +130,15 @@ void	bfs(t_ind *ices, t_heap *heap)
 	ices->start->visited = 1;
 	while (heap->queue->head)
 	{
-		// heap->nopath = true;
-		choose_path(heap, ices->start);
-		//printf("iter %d\n[%s] : ", i, heap->queue->head->rooms->name);
-		// print_queue(heap->queue->head);
+		heap->nopath = 0;
+		choose_path(heap, ices->start, ices->end);
 		if (heap->queue->tail->rooms == ices->end)
 		{
-			// heap->nopath = false;
+			heap->nopath = 1;
 			break ;
 		}
 		i++;
 	}
 	free_bfs(heap);
 	unvisit(&(heap->visited));
-
-	//debug free
-	// heap->visited->head ? free(heap->visited->head) : 0;
-	// printf("heap->visited = %p\nheap->visited->head = %p", heap->visited, heap->visited->head);
-	//print_queue(heap.queue->head);
 }

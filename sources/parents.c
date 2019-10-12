@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 19:50:41 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/01 21:12:36 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/10/08 19:05:21 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,19 @@ static t_parent *new_parent(t_room *room)
 	return (new);
 }
 
-void    add_parents(t_htparent **parents, t_room *toadd)
+void    add_parents(t_htparent **parents, t_room *toadd, t_room *end)
 {
-	if ( !(*parents))
+	if (toadd != end)
 	{
-		if (!(*parents = (t_htparent*)malloc(sizeof(t_htparent))))
-			exit(-1);
-		(*parents)->head = new_parent(toadd);
-		(*parents)->tail = (*parents)->head;
-		return ;
+		if (!(*parents))
+		{
+			if (!(*parents = (t_htparent*)malloc(sizeof(t_htparent))))
+				exit(-1);
+			(*parents)->head = new_parent(toadd);
+			(*parents)->tail = (*parents)->head;
+			return ;
+		}
+		(*parents)->tail->next = new_parent(toadd);
+		(*parents)->tail = (*parents)->tail->next;
 	}
-	(*parents)->tail->next = new_parent(toadd);
-	(*parents)->tail = (*parents)->tail->next;
 }

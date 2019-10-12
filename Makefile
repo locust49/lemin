@@ -23,7 +23,7 @@ LBIN		=	libft/libft.a
 
 HDRS		=	-I./headers
 FILENAMES	=	file_manager.c checker.c links.c rooms.c hashing.c bfs.c update_graph.c \
-				parents.c queue.c .tools.c main.c
+				parents.c queue.c .tools.c main.c groups.c
 
 SRC_DIR		=	sources
 OBJ_DIR 	=	objects
