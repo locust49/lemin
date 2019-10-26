@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   queue.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 15:24:47 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/04 16:38:37 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/10/16 08:56:55 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	unvisit(t_htqueue **queue)
 	while (tmp)
 	{
 		tmp->rooms->visited = 0;
+		tmp->rooms->visit_group = 0;
 		dequeue(queue);
 		tmp = (*queue)->head;
 	}

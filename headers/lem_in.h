@@ -6,7 +6,7 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/12 16:55:58 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/10/26 17:50:04 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ typedef struct			s_htpath
 
 typedef struct			s_group
 {
-	t_htpath			*path;
+	int					group_score;
 	int					path_num;
 	int					node_num;
+	t_htpath			*path;
 	struct s_group		*next;
 }						t_group;
 
@@ -112,13 +113,6 @@ typedef struct			s_htgroup
 	t_group				*head;
 	t_group				*tail;
 }						t_htgroup;
-
-typedef struct 			s_ingroup
-{
-	t_room				*room;
-	struct s_ingroup	*next;
-}						t_ingroup;
-
 
 typedef struct			s_heap
 {
@@ -155,6 +149,9 @@ void					print_parent(t_ind *ices);
 void					print_short(t_ind *ices);
 void					print_parents(t_htparent *parents);
 void					print_plist(t_data *data);
+void					print_path(t_path *path);
+void					print_groups(t_group *group);
+void					print__best_groups(t_group *group);
 
 void					get_next_node(t_htqueue **queue, t_room *rooms, t_room *end, t_room *start);
 void					enqueue(t_htqueue **queue, t_room *room);
@@ -171,6 +168,10 @@ void					update_graph(t_ind *ices);
 void					rupdate_graph(t_ind *ices, t_room *room);
 void					unvisit(t_htqueue **queue);
 void					free_bfs(t_heap *heap);
-
 void				    add_parents(t_htparent **parents, t_room *toadd, t_room *end);
+void					get_shortest(t_room *room, t_room *end, t_htparent **shortest, int *node_num);
+void					get_groups(t_ind *ices, t_data *data, t_htgroup **groups);
+t_htparent				*new_short(t_room *room, t_htparent *shortest);
+t_group					*choose_group(t_group *group);
+
 #endif

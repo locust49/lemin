@@ -6,7 +6,7 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 13:19:26 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/12 16:55:39 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/10/25 12:14:05 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 void	init_heap(t_heap *heap)
 {
 	heap->nopath = 0;
-	if (!(heap->queue = (t_htqueue *)malloc(sizeof(t_htqueue))) ||
-		!(heap->visited = (t_htqueue *)malloc(sizeof(t_htqueue))))
+	if (!(heap->queue = (t_htqueue *)malloc(sizeof(t_htqueue))))
+		exit(-1);
+	if (!(heap->visited = (t_htqueue *)malloc(sizeof(t_htqueue))))
 		exit(-1);
 	heap->queue->head = NULL;
 	heap->queue->tail = NULL;
@@ -42,26 +43,26 @@ void	get_next_node(t_htqueue **queue, t_room *room, t_room *end, t_room *start)
 			links->to->parent = room;
 			links->to->visited = 1;
 			if (links->to == end)
+			{
 				break;
+			}
 		}
 		links = links->next;
 	}
 }
 
-void	get_parent_node(t_htqueue **queue, t_room *room, t_room *end, t_room *start)
+void	get_parent_node(t_htqueue **queue, t_room *room, t_room *start)
 {
-	t_link	*links;
+	t_parent	*links;
 
-	links = room->links;
+	links = room->parents->head;
 	while (links)
 	{
-		if (links->to->visited == 0 && links->flow == 0 && links->to != start)
+		if (links->room->visited == 0 && links->room != start)
 		{
-			enqueue(queue, links->to);
-			links->to->parent = room;
-			links->to->visited = 1;
-			if (links->to == end)
-				break;
+			enqueue(queue, links->room);
+			links->room->parent = room;
+			links->room->visited = 1;
 		}
 		links = links->next;
 	}
@@ -92,10 +93,10 @@ void	choose_path(t_heap *heap, t_room *start, t_room *end)
 		if (room->capacity == 0 && room->parent->capacity == 0)
 		{
 			get_next_node(&(heap->queue), room, end, start);
-			get_parent_node(&(heap->queue), room, end, start);
+			get_parent_node(&(heap->queue), room, start);
 		}
 		else if (room->capacity == 0 && room->parent->capacity == 1)
-			get_parent_node(&(heap->queue), room, end, start);
+			get_parent_node(&(heap->queue), room, start);
 		else
 			get_next_node(&(heap->queue), room, end, start);
 		
@@ -123,8 +124,6 @@ void	free_bfs(t_heap *heap)
 
 void	bfs(t_ind *ices, t_heap *heap)
 {
-	int		i=0;
-
 	init_heap(heap);
 	enqueue(&(heap->queue), ices->start);
 	ices->start->visited = 1;
@@ -137,7 +136,6 @@ void	bfs(t_ind *ices, t_heap *heap)
 			heap->nopath = 1;
 			break ;
 		}
-		i++;
 	}
 	free_bfs(heap);
 	unvisit(&(heap->visited));

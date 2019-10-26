@@ -6,7 +6,7 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/12 16:46:19 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/10/26 17:50:24 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ int		main(void)
 	t_data		data;
 	t_ind		ices;
 	t_heap		heap;
+	t_htgroup   *groups;
 
 	file = NULL;
 	initialize_data(&data, &ices);
@@ -183,23 +184,23 @@ int		main(void)
 		line ? free(line) : 0;
 	}
 	line ? free(line) : 0;
+	    if (!(groups = (t_htgroup *)malloc(sizeof(t_htgroup))))
+        exit(-1);
+    groups->head = NULL;
+    groups->tail = NULL;
 	//valid_data(data) ? print_file(file) : quit();
 	// get_next_node(&data, &ices);
-	int i = -1;
 	heap.nopath = 1;
 	while (heap.nopath)
 	{
-		i++;
-		printf("\x1b[31:0mbfs %d\x1b[0:0m\n", i);
-		// printf("queue = %p\n", heap.queue);
 		bfs(&ices, &heap);
-		// print_plist(&data);
-		// print_ices(&ices);
-		// rupdate_graph(&ices, ices.end);
+		if (heap.nopath == 0)
+			break;
 		update_graph(&ices);
-		// get_groups(&ices, &heap);
-		// print_short(&ices);
+		get_groups(&ices, &data, &groups);
 	}
+	print_groups(groups->head);
+	print__best_groups(choose_group(groups->head));
 	// free_visited(&heap);
 	free_data(&data);
 	free_file(&file);

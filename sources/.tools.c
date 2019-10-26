@@ -6,11 +6,28 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:47:33 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/09 18:04:29 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/10/26 17:51:50 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/lem_in.h"
+
+void	print_path(t_path *path)
+{
+	t_path *tmp;
+	int i = 0;
+
+	tmp = path;
+	while (tmp)
+	{
+		i++;
+		printf("    path: %d\n", i);
+		printf("	");
+		print_parents(tmp->paths);
+		printf("\n");
+		tmp = tmp->next;
+	}
+}
 
 void	print_plist(t_data *data)
 {
@@ -152,22 +169,19 @@ void	print_links(t_link *lnk)
 	printf("links:\n\x1b[34:0m(x)\x1b[0:0m ");
 	while (tmp)
 	{
-		printf("(%s,%d)<-> ", tmp->to->name, tmp->to->visited);
+		printf("(%s,%d)<-> ", tmp->to->name, tmp->flow);
 		tmp = tmp->next;
 	}
-	printf("(null)\n");
 }
 
 void	print_queue(t_queue *queue)
 {
-	printf("\n\x1b[33:0m*)\x1b[0:0m");
 	while (queue)
 	{
-		printf(" (%d,[%s]) -->", queue->rooms->capacity, queue->rooms->name);
+		printf("(%d,[%s]) -->", queue->rooms->capacity, queue->rooms->name);
 		queue = queue->next;
 	}
-	printf(" (null)");
-	printf("\n\n");
+	printf("\n");
 }
 
 void	print_parents(t_htparent *parents)
@@ -177,10 +191,36 @@ void	print_parents(t_htparent *parents)
 	p = parents->head;
 	while (p)
 	{
-		printf("\x1b[33:0m %s \x1b[0:0m + ", p->room->name);
+		printf("\x1b[33:0m%s\x1b[0:0m ", p->room->name);
 		p = p->next;
 	}
-	printf(" (null)\n");
+}
+
+void	print_groups(t_group *group)
+{
+	t_group *tmp;
+	int i  = 0;
+
+	tmp = group;
+	while (tmp)
+	{
+		i++;
+		printf("group %d\n", i);
+		printf("num of path: %d\n", tmp->path_num);
+		printf("num of node: %d\n", tmp->node_num);
+		printf("group score: %d\n", tmp->group_score);
+		print_path(tmp->path->head);
+		tmp = tmp->next;
+	}
+}
+
+void	print__best_groups(t_group *group)
+{
+	printf("best group\n");
+	printf("num of path: %d\n", group->path_num);
+	printf("num of node: %d\n", group->node_num);
+	printf("group score: %d\n", group->group_score);
+	print_path(group->path->head);
 }
 
 void	print_ices(t_ind *ices)

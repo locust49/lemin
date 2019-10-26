@@ -15,7 +15,7 @@ _WHITE=$'\x1b[37m
 
 PROJECT		=	lem-in
 CMPL		=	gcc -g
-FLGS		=	-Wall -Wextra -Werror
+# FLGS		=	-Wall -Wextra -Werror
 
 NAME		=	lem-in
 LIBR		=	libft

@@ -6,57 +6,105 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:46:17 by otel-jac          #+#    #+#             */
-/*   Updated: 2019/10/12 18:04:21 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/10/26 17:51:27 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	get_node(t_htqueue **queue, t_room *room, t_room *end, t_room *start)
+t_path		*new_path(t_room *room, t_ind *ices, int *node_num)
 {
-	t_link	*links;
+	t_htparent	*shortest;
+	t_path		*new;
 
-	links = room->links;
-	while (links)
+	if (!(new = (t_path*)malloc(sizeof(t_path))))
+		exit(-1);
+	if (!(shortest = (t_htparent*)malloc(sizeof(t_htparent))))
+		exit(-1);
+	shortest->head = NULL;
+	shortest->tail = NULL;
+	shortest = new_short(ices->start, shortest);
+	get_shortest(room, ices->end, &shortest, node_num);
+	new->paths = shortest;
+	new->next = NULL;
+	return (new);
+}
+
+void			get_path(t_room *room, t_ind *ices, t_htpath **paths,
+				int *node_num)
+{
+	t_path		*new;
+
+	if (!(new = (t_path*)malloc(sizeof(t_path))))
+		exit(-1);
+	new = new_path(room, ices, node_num);
+	if ((*paths)->head == NULL)
 	{
-		if (links->to->visited == 0 && links->flow == 1 && links->to != start)
-		{
-			enqueue(queue, links->to);
-			links->to->parent = room;
-			links->to->visited = 1;
-			if (links->to == end)
-				break;
-		}
-		links = links->next;
+		(*paths)->head = new;
+		(*paths)->tail = new;
+		return ;
 	}
+	(*paths)->tail->next = new;
+	(*paths)->tail = new;
 }
 
-int     ingroup(t_room *room, t_ingroup *group)
+t_group			*new_groups(t_ind *ices)
 {
-    t_ingroup   *tmp;
+	t_link		*link;
+	t_htpath	*path;
+	t_group		*new;
 
-    tmp = group;
-    while (tmp)
-    {
-        if (tmp->room == room)
-            return (1);
-        tmp = tmp->next;
-    }
-    return (0);
+	link = ices->start->links;
+	if (!(new = (t_group*)malloc(sizeof(t_group))))
+		exit(-1);
+	if (!(path = (t_htpath*)malloc(sizeof(t_htpath))))
+		exit(-1);
+	path->head = NULL;
+	path->tail = NULL;
+	new->path_num = 0;
+	new->node_num = 0;
+	while (link)
+	{
+		if (link->flow == 0)
+		{
+			new->path_num += 1;
+			get_path(link->to, ices, &path, &new->node_num);
+		}
+		link = link->next;
+	}
+	new->path = path;
+	new->next = NULL;
+	return (new);
 }
 
-void    get_groups(t_ind *ices)
+void			get_groups(t_ind *ices, t_data *data, t_htgroup **groups)
 {
-    t_htgroup   *groups;
-    t_htqueue   *queue;
+	t_group		*new;
 
-    if (!(groups = (t_htgroup *)malloc(sizeof(t_htgroup))))
-        exit(-1);
-    groups->head = NULL;
-    groups->tail = NULL;
-    while ()
-    {
-        if (queue->tail == ices->start)
-            break;
-    }
+	new = new_groups(ices);
+	new->group_score = (data->ants / new->path_num) + new->node_num;
+	if ((*groups)->head == NULL)
+	{
+		(*groups)->head = new;
+		(*groups)->tail = new;
+		return ;
+	}
+	(*groups)->tail->next = new;
+	(*groups)->tail = new;
+}
+
+t_group		*choose_group(t_group *group)
+{
+	t_group *min;
+	t_group *tmp;
+
+	min = group;
+	tmp = group;
+	while (tmp)
+	{
+		if (tmp->group_score < min->group_score)
+			min = tmp;
+		tmp = tmp->next;
+	}
+	return (min);
 }

@@ -6,7 +6,7 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:04:17 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/12 16:54:13 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/10/25 12:14:18 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ void	update_graph(t_ind *ices)
 		else
 		{
 			update_minus_one(room->parent->links, room);
-			// add_parents(&(room->parents), room->parent, ices->end);
+			add_parents(&(room->parents), room->parent, ices->end);
 		}
-		room->capacity = 1 - room->capacity;
+		if (room != ices->end)
+			room->capacity = 0;
 		room = room->parent;
 	}
 }
