@@ -6,7 +6,7 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/26 17:50:04 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/13 17:03:08 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ typedef struct			s_path
 
 typedef struct			s_htpath
 {
-	int					mod_num;
 	struct s_path		*head;
 	struct s_path		*tail;
 }						t_htpath;
