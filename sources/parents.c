@@ -6,7 +6,7 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 19:50:41 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/26 17:36:44 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/12 17:31:40 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,13 @@ void		get_shortest(t_room *room, t_room *end, t_htparent **shortest, int *node_n
 
 	tmp = room;
 	(*shortest) = new_short(tmp, (*shortest));
+	int i = 0;
 	while (tmp != end)
 	{
 		link = tmp->links;
+		i++;
+		if (i > 20)
+			break;
 		while (link)
 		{
 			if (link->flow == 0)

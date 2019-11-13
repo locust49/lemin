@@ -6,7 +6,7 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:47:33 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/26 17:51:50 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/12 16:20:21 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,10 +166,10 @@ void	print_links(t_link *lnk)
 	t_link *tmp;
 
 	tmp = lnk;
-	printf("links:\n\x1b[34:0m(x)\x1b[0:0m ");
+	printf("links: ");
 	while (tmp)
 	{
-		printf("(%s,%d)<-> ", tmp->to->name, tmp->flow);
+		printf("(%s,%d) ", tmp->to->name, tmp->flow);
 		tmp = tmp->next;
 	}
 }
@@ -191,7 +191,7 @@ void	print_parents(t_htparent *parents)
 	p = parents->head;
 	while (p)
 	{
-		printf("\x1b[33:0m%s\x1b[0:0m ", p->room->name);
+		printf("%s ", p->room->name);
 		p = p->next;
 	}
 }

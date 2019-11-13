@@ -6,7 +6,7 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:46:17 by otel-jac          #+#    #+#             */
-/*   Updated: 2019/10/26 17:51:27 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/13 10:56:01 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void			get_groups(t_ind *ices, t_data *data, t_htgroup **groups)
 	t_group		*new;
 
 	new = new_groups(ices);
-	new->group_score = (data->ants / new->path_num) + new->node_num;
+	new->group_score = (data->ants + new->node_num) / new->path_num;
 	if ((*groups)->head == NULL)
 	{
 		(*groups)->head = new;
@@ -92,6 +92,10 @@ void			get_groups(t_ind *ices, t_data *data, t_htgroup **groups)
 	(*groups)->tail->next = new;
 	(*groups)->tail = new;
 }
+
+/*
+*** function to find the best group of path for the map
+*/
 
 t_group		*choose_group(t_group *group)
 {

@@ -6,7 +6,7 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/26 17:50:24 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/13 15:55:05 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	get_ants(t_data *data, t_string line)
 	if (ft_strlen(line) >= 10 && ft_strcmp(line, "2147483647") > 0)
 		quit();
 	data->ants = ft_atoi(line);
-	// printf("ants = %d\n", data->ants);
 	if (data->ants <= 0)
 		quit();
 }
@@ -104,21 +103,7 @@ void	get_graph(t_data *data, t_string line, t_ind *ices)
 		quit();
 	else if (str_iscomment(line) == true || str_iscommand(data, line) == true)
 		;
-		//ft_putendl("command or comment");
 }
-
-/*
-**	// ft_putendl("***********after************");
-**	// print_data(data);
-**	// ft_putendl("*************************");
-*/
-
-/*
-**	// print_rooms(&data, 1);
-**	// printf("nbr of rooms = %d\n", data.rooms);
-**	// print_rooms(rooms);
-**	// print_ices(&ices);
-*/
 
 void	free_room(t_room *room)
 {
@@ -184,12 +169,10 @@ int		main(void)
 		line ? free(line) : 0;
 	}
 	line ? free(line) : 0;
-	    if (!(groups = (t_htgroup *)malloc(sizeof(t_htgroup))))
-        exit(-1);
+	if (!(groups = (t_htgroup *)malloc(sizeof(t_htgroup))))
+		exit(-1);
     groups->head = NULL;
     groups->tail = NULL;
-	//valid_data(data) ? print_file(file) : quit();
-	// get_next_node(&data, &ices);
 	heap.nopath = 1;
 	while (heap.nopath)
 	{
@@ -199,7 +182,6 @@ int		main(void)
 		update_graph(&ices);
 		get_groups(&ices, &data, &groups);
 	}
-	print_groups(groups->head);
 	print__best_groups(choose_group(groups->head));
 	// free_visited(&heap);
 	free_data(&data);
