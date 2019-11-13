@@ -6,7 +6,7 @@
 /*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/13 15:55:05 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/13 17:18:56 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int		main(void)
 	t_ind		ices;
 	t_heap		heap;
 	t_htgroup   *groups;
+	int			i;
 
 	file = NULL;
 	initialize_data(&data, &ices);
@@ -173,15 +174,19 @@ int		main(void)
 		exit(-1);
     groups->head = NULL;
     groups->tail = NULL;
+	i = 0;
 	heap.nopath = 1;
 	while (heap.nopath)
 	{
 		bfs(&ices, &heap);
 		if (heap.nopath == 0)
 			break;
+		i++;
 		update_graph(&ices);
 		get_groups(&ices, &data, &groups);
 	}
+	if (i == 0)
+		quit();
 	print__best_groups(choose_group(groups->head));
 	// free_visited(&heap);
 	free_data(&data);
