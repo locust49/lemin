@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 19:50:41 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/12 17:31:40 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/18 17:08:36 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void    add_parents(t_htparent **parents, t_room *toadd, t_room *end)
 		{
 			if (!(*parents = (t_htparent*)malloc(sizeof(t_htparent))))
 				exit(-1);
+			(*parents)->total_node = 0;
 			(*parents)->head = new_parent(toadd);
 			(*parents)->tail = (*parents)->head;
 			return ;
@@ -47,6 +48,7 @@ t_htparent		*new_short(t_room *room, t_htparent *shortest)
 	if (!(new = malloc(sizeof(t_parent))))
 		exit(-1);
 	new->room = room;
+	(shortest->total_node) += 1;
 	new->next = NULL;
 	if (shortest->head == NULL)
 	{
@@ -68,13 +70,9 @@ void		get_shortest(t_room *room, t_room *end, t_htparent **shortest, int *node_n
 
 	tmp = room;
 	(*shortest) = new_short(tmp, (*shortest));
-	int i = 0;
 	while (tmp != end)
 	{
 		link = tmp->links;
-		i++;
-		if (i > 20)
-			break;
 		while (link)
 		{
 			if (link->flow == 0)

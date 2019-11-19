@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/13 17:18:56 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/19 05:38:46 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void	store_room(t_data *data, t_string line, t_ind *ices)
 	else if (data->info.room == 0 || data->info.room == -1)
 		add_room(line, data);
 	else
+	{
+		printf("store room\n");
 		quit();
+	}
 }
 
 void	get_graph(t_data *data, t_string line, t_ind *ices)
@@ -96,11 +99,17 @@ void	get_graph(t_data *data, t_string line, t_ind *ices)
 		}
 		else if ((ft_strchr(line, '-')
 		&& ((before_links(*data) == false) || ft_strchr(line, ' '))))
-			quit();
+			{
+				printf("get_graph 1\n");
+				quit();
+				}
 	}
 	else if (str_iscomment(line) == false && str_iscommand(data, line) == false
 		&& str_room_link(line) == false)
-		quit();
+		{
+			printf("get_graph 2\nline %s\n", line);
+			quit();
+			}
 	else if (str_iscomment(line) == true || str_iscommand(data, line) == true)
 		;
 }
@@ -186,8 +195,21 @@ int		main(void)
 		get_groups(&ices, &data, &groups);
 	}
 	if (i == 0)
+	{
+		printf("No path found\n");
 		quit();
-	print__best_groups(choose_group(groups->head));
+	}
+	t_group	*chosen;
+	t_string **tab_chosen;
+	chosen = choose_group(groups->head);
+	// print__best_groups(chosen);
+	ft_putchar('\n');
+	tab_chosen = convert_chosen_group(chosen);
+	print_tab_2d_str(tab_chosen);
+	ft_putchar('\n');
+	ft_putchar('\n');
+	loop_on_chosen_group(tab_chosen, chosen->group_score, data.ants, chosen->path_num);
+	free_tab_2d_str(tab_chosen);
 	// free_visited(&heap);
 	free_data(&data);
 	free_file(&file);
@@ -195,4 +217,4 @@ int		main(void)
 
 /*
 **	free before quit if !valid
-*/
+*/ 

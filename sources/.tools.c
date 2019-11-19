@@ -3,14 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   .tools.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:47:33 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/12 16:20:21 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/18 17:29:22 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/lem_in.h"
+
+void	print_tab_2d_str(t_string **tab)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (tab && tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			printf("%s ", tab[i][j]);
+			j += 1;
+		}
+		printf("(null)\n");
+		i += 1;
+	}
+}
+
+void	free_tab_2d_str(t_string **tab)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (tab && tab[i])
+	{
+		j = 0;
+		while (tab[i][j])
+		{
+			free(tab[i][j]);
+			j += 1;
+		}
+		i += 1;
+	}
+	free(tab);
+}
 
 void	print_path(t_path *path)
 {
@@ -21,7 +59,7 @@ void	print_path(t_path *path)
 	while (tmp)
 	{
 		i++;
-		printf("    path: %d\n", i);
+		printf("    path with total nodes(%d): %d\n", tmp->paths->total_node, i);
 		printf("	");
 		print_parents(tmp->paths);
 		printf("\n");

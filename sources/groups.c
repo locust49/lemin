@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   groups.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:46:17 by otel-jac          #+#    #+#             */
-/*   Updated: 2019/11/13 10:56:01 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/20 00:54:46 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,41 @@ void			get_groups(t_ind *ices, t_data *data, t_htgroup **groups)
 }
 
 /*
+**	sort the chosen group to get the shortest paths first
+*/
+
+t_group		*sort_group(t_group **tosort)
+{
+	t_group		*head;
+	t_path		*tmp0;
+	t_path		*tmp1;
+	t_path		*last;
+	t_htparent	*swap;
+
+	head = *tosort;
+	tmp0 = head->path->head;
+	while (tmp0)
+	{
+		tmp1 = tmp0->next;
+		while (tmp1)
+		{
+			if (tmp0->paths->total_node > tmp1->paths->total_node)
+			{
+				swap = tmp0->paths;
+				tmp0->paths = tmp1->paths;
+				tmp1->paths = swap;
+			}
+			tmp1 = tmp1->next;
+		}
+		if (!tmp0->next)
+			last = tmp0;
+		tmp0 = tmp0->next;
+	}
+	*tosort = head;
+	return (head);
+}
+
+/*
 *** function to find the best group of path for the map
 */
 
@@ -110,5 +145,5 @@ t_group		*choose_group(t_group *group)
 			min = tmp;
 		tmp = tmp->next;
 	}
-	return (min);
+	return (sort_group(&min));
 }

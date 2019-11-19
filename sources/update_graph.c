@@ -33,7 +33,6 @@ void	update_graph(t_ind *ices)
 	t_room  *room;
 
 	room = ices->end;
-	int i = 0;
 	while (room != ices->start)
 	{
 		if (room->capacity == 0 && room->parent->capacity == 0)

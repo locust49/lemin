@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/13 17:03:08 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/20 00:54:19 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct 			s_parent
 
 typedef struct			s_htparent
 {
+	int			total_node;
 	t_parent	*head;
 	t_parent	*tail;
 }						t_htparent;
@@ -75,7 +76,7 @@ struct					s_indice
 
 typedef	struct			s_queue
 {
-	t_room			*rooms;
+	t_room			*rooms;	
 	struct s_queue	*next;
 	struct s_queue	*prec;
 }						t_queue;
@@ -152,7 +153,8 @@ void					print_path(t_path *path);
 void					print_groups(t_group *group);
 void					print__best_groups(t_group *group);
 
-void					get_next_node(t_htqueue **queue, t_room *rooms, t_room *end, t_room *start);
+void					get_next_node(t_htqueue **queue, t_room *rooms,
+						t_room *end, t_room *start);
 void					enqueue(t_htqueue **queue, t_room *room);
 void					dequeue(t_htqueue **queue);
 void					link_queue(t_queue **queue, t_queue *new);
@@ -167,10 +169,22 @@ void					update_graph(t_ind *ices);
 void					rupdate_graph(t_ind *ices, t_room *room);
 void					unvisit(t_htqueue **queue);
 void					free_bfs(t_heap *heap);
-void				    add_parents(t_htparent **parents, t_room *toadd, t_room *end);
-void					get_shortest(t_room *room, t_room *end, t_htparent **shortest, int *node_num);
-void					get_groups(t_ind *ices, t_data *data, t_htgroup **groups);
+void				    add_parents(t_htparent **parents, t_room *toadd,
+						t_room *end);
+void					get_shortest(t_room *room, t_room *end,
+						t_htparent **shortest, int *node_num);
+void					get_groups(t_ind *ices, t_data *data,
+						t_htgroup **groups);
 t_htparent				*new_short(t_room *room, t_htparent *shortest);
 t_group					*choose_group(t_group *group);
+
+void					print_tab_2d_str(t_string **tab);
+t_group		*sort_group(t_group **group);
+t_string				**convert_chosen_group(t_group *head);
+void					free_tab_2d_str(t_string **tab);
+// void					loop_on_chosen_group(t_string **group, int *ant,
+// 						t_data *data);
+void					loop_on_chosen_group(t_string **group, int score, int ants, int node);
+
 
 #endif
