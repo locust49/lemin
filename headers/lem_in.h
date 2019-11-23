@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/20 00:54:19 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/23 14:40:34 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LEM_IN_H
 # include <stdio.h>
 # include <fcntl.h>
-# include "../libft/libft.h"
+# include "libft.h"
 # include "file.h"
 # define FD 1
 # define MAX_NODE 10009
@@ -104,6 +104,7 @@ typedef struct			s_group
 	int					group_score;
 	int					path_num;
 	int					node_num;
+	int					biggest_path_node;
 	t_htpath			*path;
 	struct s_group		*next;
 }						t_group;
@@ -120,6 +121,16 @@ typedef struct			s_heap
 	t_htqueue	*queue;
 	t_htqueue	*visited;
 }						t_heap;
+
+typedef struct			s_lemin
+{
+	t_string	room;
+	int			length;
+	int			virtual_len;
+	int			blocked;
+	int			id_ant;
+}						t_lemin;
+
 
 void					debug(void);
 
@@ -154,7 +165,7 @@ void					print_groups(t_group *group);
 void					print__best_groups(t_group *group);
 
 void					get_next_node(t_htqueue **queue, t_room *rooms,
-						t_room *end, t_room *start);
+						t_room *end);
 void					enqueue(t_htqueue **queue, t_room *room);
 void					dequeue(t_htqueue **queue);
 void					link_queue(t_queue **queue, t_queue *new);
@@ -178,13 +189,16 @@ void					get_groups(t_ind *ices, t_data *data,
 t_htparent				*new_short(t_room *room, t_htparent *shortest);
 t_group					*choose_group(t_group *group);
 
-void					print_tab_2d_str(t_string **tab);
-t_group		*sort_group(t_group **group);
-t_string				**convert_chosen_group(t_group *head);
+void					print_tab_2d_str(t_string **tab, int max);
+t_group					*sort_group(t_group **group);
+t_lemin					**convert_chosen_group(t_group *head);
 void					free_tab_2d_str(t_string **tab);
 // void					loop_on_chosen_group(t_string **group, int *ant,
 // 						t_data *data);
-void					loop_on_chosen_group(t_string **group, int score, int ants, int node);
+// void	loop_on_chosen_group(t_string **tab, t_group *group, int max_ant);
+void					tts_show_results(int ant_count, t_lemin **room_list);
+void	tts_simulate_moves(int *current_ant, int ant_count, t_lemin **room_list);
+// void					loop_on_chosen_group(t_string **group, int score, int ants, int node);
 
 
 #endif
