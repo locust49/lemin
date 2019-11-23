@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 14:37:43 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/23 07:37:57 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/23 14:52:42 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,28 @@ t_lemin	**convert_chosen_group(t_group *head)
 	int			index;
 	int			i_room;
 
-	index = -1;
+	index = 0;
 	chosen = (t_lemin**)malloc(sizeof(t_lemin*) * (head->path_num + 1));
 	tmp = head->path->head;
-	while (++index < head->path_num)
+	while (index < head->path_num)
 	{
 		chosen[index] = (t_lemin *)malloc(sizeof(t_lemin) *
 						(1 + head->biggest_path_node));
-		i_room = -1;
+		i_room = 0;
 		chosen[index]->length = tmp->paths->total_node;
 		chosen[index]->virtual_len = 0;
 		chosen[index]->blocked = 0;
-		while (++i_room < head->biggest_path_node)
+		while (i_room < head->biggest_path_node)
 		{
 			(chosen[index][i_room]).room = tmp->paths->head ?
 			ft_strdup(tmp->paths->head->room->name) : NULL;
 			chosen[index][i_room].id_ant = -1;
 			tmp->paths->head ? tmp->paths->head = tmp->paths->head->next : 0;
+			i_room += 1;
 		}
 		chosen[index][i_room].room = NULL;
 		tmp = tmp->next;
+		index += 1;
 	}
 	chosen[index] = NULL;
 	return (chosen);
@@ -131,12 +133,12 @@ void	tts_print_ants(t_lemin **room_list)
 	size_t	jndex;
 	t_bool	draw_nothing;
 
-	index = -1;
+	index = 0;
 	draw_nothing = true;
-	while (room_list[++index])
+	while (room_list[index])
 	{
-		jndex = 0;
-		while (room_list[index][++jndex].room)
+		jndex = 1;
+		while (room_list[index][jndex].room && room_list[index][jndex].id_ant != 0)
 		{
 			if (room_list[index][jndex].id_ant == -1)
 			{
@@ -149,7 +151,9 @@ void	tts_print_ants(t_lemin **room_list)
 			write(1, "-", 1);
 			ft_putstr(room_list[index][jndex].room);
 			write(1, " ", 1);
+			jndex++;
 		}
+		index++;
 	}
 	draw_nothing == false ? write(1, "\n", 1) : 0;
 }
@@ -161,10 +165,11 @@ void	tts_show_results(int ant_count, t_lemin **room_list)
 
 	current_ant = 1;
 	ended = 0;
-	while (current_ant <= ant_count || !ended)
+	while (current_ant <= ant_count || !ended || (!ended && ant_count == 1))
 	{
+		if (!ended && current_ant == 1)
+			current_ant -= 1;
 		ended = tts_advance_ants(&current_ant, ant_count, room_list);
-		if (current_ant <= ant_count || !ended)
-			tts_print_ants(room_list);
+		tts_print_ants(room_list);
 	}
 }
