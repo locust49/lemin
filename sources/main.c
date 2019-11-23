@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/19 05:38:46 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/23 14:46:53 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int		main(void)
 	file = NULL;
 	initialize_data(&data, &ices);
 	gnl = 0;
-	while (get_next_line(0, &line))
+	while (get_next_line(0, &line) > 0)
 	{
 		gnl += 1;
 		if (gnl == 1)
@@ -179,37 +179,39 @@ int		main(void)
 		line ? free(line) : 0;
 	}
 	line ? free(line) : 0;
-	if (!(groups = (t_htgroup *)malloc(sizeof(t_htgroup))))
-		exit(-1);
-    groups->head = NULL;
-    groups->tail = NULL;
-	i = 0;
-	heap.nopath = 1;
-	while (heap.nopath)
-	{
-		bfs(&ices, &heap);
-		if (heap.nopath == 0)
-			break;
-		i++;
-		update_graph(&ices);
-		get_groups(&ices, &data, &groups);
-	}
-	if (i == 0)
-	{
-		printf("No path found\n");
-		quit();
-	}
-	t_group	*chosen;
-	t_string **tab_chosen;
-	chosen = choose_group(groups->head);
-	// print__best_groups(chosen);
-	ft_putchar('\n');
-	tab_chosen = convert_chosen_group(chosen);
-	print_tab_2d_str(tab_chosen);
-	ft_putchar('\n');
-	ft_putchar('\n');
-	loop_on_chosen_group(tab_chosen, chosen->group_score, data.ants, chosen->path_num);
-	free_tab_2d_str(tab_chosen);
+	if (gnl)
+		{if (!(groups = (t_htgroup *)malloc(sizeof(t_htgroup))))
+			exit(-1);
+		groups->head = NULL;
+		groups->tail = NULL;
+		i = 0;
+		heap.nopath = 1;
+		while (heap.nopath)
+		{
+			bfs(&ices, &heap);
+			if (heap.nopath == 0)
+				break;
+			i++;
+			update_graph(&ices);
+			get_groups(&ices, &data, &groups);
+		}
+		if (i == 0)
+		{
+			printf("No path found\n");
+			quit();
+		}
+		t_group	*chosen;
+		t_lemin **room_list;
+		chosen = choose_group(groups->head);
+		// print__best_groups(chosen);
+		room_list = convert_chosen_group(chosen);
+		tts_show_results(data.ants, room_list);
+
+		}
+		else
+		{
+			quit();
+		}
 	// free_visited(&heap);
 	free_data(&data);
 	free_file(&file);
