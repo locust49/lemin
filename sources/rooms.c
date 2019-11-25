@@ -6,13 +6,13 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 16:06:01 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/01 21:04:33 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/25 11:56:34 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static t_room		*new_room(t_string line, int thisid)
+t_room		*new_room(t_string line, int thisid)
 {
 	t_room	*new;
 
@@ -33,7 +33,9 @@ long long	add_room(t_string line, t_data *data)
 {
 	long long	hash_id;
 	t_string	name;
+	t_room		*found;
 
+	found = NULL;
 	name = ft_strsub(line, 0, ft_strchr(line, ' ') - line);
 	hash_id = get_hash_id(name);
 	if (!(data->r_tab[hash_id]->head))
@@ -43,10 +45,17 @@ long long	add_room(t_string line, t_data *data)
 	}
 	else
 	{
-		data->r_tab[hash_id]->tail->next = new_room(line, hash_id);
-		data->r_tab[hash_id]->tail = data->r_tab[hash_id]->tail->next;
+		if (!(found = find_node(hash_id, name, data)))
+		{
+			data->r_tab[hash_id]->tail->next = new_room(line, hash_id);
+			data->r_tab[hash_id]->tail = data->r_tab[hash_id]->tail->next;
+			name ? free(name) : 0;
+			return (hash_id);
+		}
+		name ? free(name) : 0;
+		return (-1);
 	}
-	free(name);
+	name ? free(name) : 0;
 	return (hash_id);
 }
 

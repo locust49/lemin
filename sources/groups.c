@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:46:17 by otel-jac          #+#    #+#             */
-/*   Updated: 2019/11/20 00:54:46 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/25 05:41:11 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,21 @@ t_path		*new_path(t_room *room, t_ind *ices, int *node_num)
 		exit(-1);
 	if (!(shortest = (t_htparent*)malloc(sizeof(t_htparent))))
 		exit(-1);
+	shortest->total_node = 0;
 	shortest->head = NULL;
 	shortest->tail = NULL;
-	shortest = new_short(ices->start, shortest);
-	get_shortest(room, ices->end, &shortest, node_num);
+	new_short(ices->start, &shortest);
+	room != ices->end ? get_shortest(room, ices->end, &shortest, node_num) : 0;
 	new->paths = shortest;
 	new->next = NULL;
 	return (new);
 }
 
-void			get_path(t_room *room, t_ind *ices, t_htpath **paths,
+void		get_path(t_room *room, t_ind *ices, t_htpath **paths,
 				int *node_num)
 {
 	t_path		*new;
 
-	if (!(new = (t_path*)malloc(sizeof(t_path))))
-		exit(-1);
 	new = new_path(room, ices, node_num);
 	if ((*paths)->head == NULL)
 	{
@@ -72,12 +71,17 @@ t_group			*new_groups(t_ind *ices)
 		}
 		link = link->next;
 	}
+	new->biggest_path_node = 0;
 	new->path = path;
 	new->next = NULL;
 	return (new);
 }
 
-void			get_groups(t_ind *ices, t_data *data, t_htgroup **groups)
+/*
+**	Store the groups with the paths that don't intersect.
+*/
+
+void		get_groups(t_ind *ices, t_data *data, t_htgroup **groups)
 {
 	t_group		*new;
 
@@ -97,13 +101,21 @@ void			get_groups(t_ind *ices, t_data *data, t_htgroup **groups)
 **	sort the chosen group to get the shortest paths first
 */
 
+void	swap_paths(t_path **path0, t_path **path1)
+{
+	t_htparent	*swap;
+
+	swap = (*path0)->paths;
+	(*path0)->paths = (*path1)->paths;
+	(*path1)->paths = swap;
+}
+
 t_group		*sort_group(t_group **tosort)
 {
 	t_group		*head;
 	t_path		*tmp0;
 	t_path		*tmp1;
 	t_path		*last;
-	t_htparent	*swap;
 
 	head = *tosort;
 	tmp0 = head->path->head;
@@ -113,18 +125,14 @@ t_group		*sort_group(t_group **tosort)
 		while (tmp1)
 		{
 			if (tmp0->paths->total_node > tmp1->paths->total_node)
-			{
-				swap = tmp0->paths;
-				tmp0->paths = tmp1->paths;
-				tmp1->paths = swap;
-			}
+				swap_paths(&tmp0, &tmp1);
 			tmp1 = tmp1->next;
 		}
-		if (!tmp0->next)
-			last = tmp0;
+		!tmp0->next ? last = tmp0 : 0;
 		tmp0 = tmp0->next;
 	}
 	*tosort = head;
+	head->biggest_path_node = last->paths->total_node;
 	return (head);
 }
 

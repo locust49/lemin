@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   links.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 13:11:46 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/13 17:29:09 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/25 06:57:24 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_room	*find_node(long long link_id, char *name, t_data *data)
 	return (NULL);
 }
 
-void	store_link(t_data *data, t_string line)
+t_bool	store_link(t_data *data, t_string line)
 {
 	t_string	first;
 	t_string	second;
@@ -66,11 +66,12 @@ void	store_link(t_data *data, t_string line)
 	if (!room1 || !room2)
 	{
 		free(first);
-		quit();
+		return (false);
 	}
 	add_link(&(room1->links), room2);
 	add_link(&(room2->links), room1);
 	free(first);
+	return (true);
 }
 
 void	free_links(t_link **links)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   queue.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/21 15:24:47 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/16 08:56:55 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/23 15:03:24 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,8 @@ void	dequeue(t_htqueue **queue)
 		return ;
 	head = (*queue)->head;
 	(*queue)->head = ((*queue)->head->next) ? (*queue)->head->next : NULL;
-	head ? free(head) : 0; // not sure
+	head ? free(head) : 0;
 }
-
-// void	visited(t_htqueue **queue)
-// {
-
-// }
 
 void	unvisit(t_htqueue **queue)
 {

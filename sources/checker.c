@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 14:33:38 by slyazid           #+#    #+#             */
-/*   Updated: 2019/10/21 17:04:15 by otel-jac         ###   ########.fr       */
+/*   Updated: 2019/11/24 18:48:48 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,18 @@ t_bool	str_iscomment(t_string line)
 
 t_bool	str_iscommand(t_data *data, t_string line)
 {
-	if (*line == '#' && *(line + 1) == '#')
+	if (line && *line == '#' && (line + 1) && *(line + 1) == '#')
 	{
 		if (ft_strequ(line, "##start") && data->info.start == -1)
 			data->info.start = 0;
+		else if (ft_strequ(line, "##start") && data->info.start == 1)
+			return (false);
 		if (ft_strequ(line, "##end") && data->info.end == -1)
 			data->info.end = 0;
+		else if (ft_strequ(line, "##end") && data->info.end == 1)
+			return (false);
 		if (data->info.end == 0 && data->info.start == 0)
-			quit();
+			return (false);
 		return (true);
 	}
 	return (false);
@@ -101,9 +105,15 @@ t_bool	before_links(t_data data)
 ** valid data need more conditions about if the graph is linked or not ;)
 */
 
-t_bool	valid_data(t_data data)
+t_bool	enough_data(t_data data)
 {
-	if (before_links(data) == true && data.info.link == 0)
+	if (data.info.room == 1 && data.info.link == 1 &&
+		data.info.start == 1 && data.info.end == 1)
 		return (true);
 	return (false);
+}
+
+t_bool	valid_data(t_data data)
+{
+	return (enough_data(data) && true);
 }
