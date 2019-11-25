@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/23 14:40:34 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/25 13:23:00 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ struct					s_indice
 
 typedef	struct			s_queue
 {
-	t_room			*rooms;	
+	t_room			*rooms;
 	struct s_queue	*next;
 	struct s_queue	*prec;
 }						t_queue;
@@ -134,7 +134,9 @@ typedef struct			s_lemin
 
 void					debug(void);
 
-void					quit(void);
+// void					quit(void);
+void					free_data(t_data *data);
+t_room	*find_node(long long link_id, char *name, t_data *data);
 
 t_bool					str_ispnum(t_string line);
 t_bool					str_iscomment(t_string line);
@@ -145,7 +147,7 @@ t_bool					valid_data(t_data data);
 
 long long				get_hash_id(t_string s);
 
-void					store_link(t_data *data, t_string line);
+t_bool					store_link(t_data *data, t_string line);
 void					free_links(t_link **links);
 
 long long				add_room(t_string line, t_data *data);
@@ -186,7 +188,7 @@ void					get_shortest(t_room *room, t_room *end,
 						t_htparent **shortest, int *node_num);
 void					get_groups(t_ind *ices, t_data *data,
 						t_htgroup **groups);
-t_htparent				*new_short(t_room *room, t_htparent *shortest);
+void					new_short(t_room *room, t_htparent **shortest);
 t_group					*choose_group(t_group *group);
 
 void					print_tab_2d_str(t_string **tab, int max);
@@ -197,8 +199,13 @@ void					free_tab_2d_str(t_string **tab);
 // 						t_data *data);
 // void	loop_on_chosen_group(t_string **tab, t_group *group, int max_ant);
 void					tts_show_results(int ant_count, t_lemin **room_list);
-void	tts_simulate_moves(int *current_ant, int ant_count, t_lemin **room_list);
+void					tts_simulate_moves(int *current_ant, int ant_count, t_lemin **room_list);
 // void					loop_on_chosen_group(t_string **group, int score, int ants, int node);
+t_room	*new_room(t_string line, int thisid);
+void	free_room_list(t_lemin ***list);
+
+void					print_data(t_data data);
+void					free_parents(t_htparent **parents);
 
 
 #endif
