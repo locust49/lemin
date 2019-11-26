@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/23 14:46:53 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/26 20:24:23 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,46 @@ void	free_data(t_data *data)
 	}
 }
 
-int		main(void)
+char	***free_room_list(char ***room_list)
+{
+	int			i;
+	int			j;
+
+	i = 0;
+	if (room_list[i] == NULL)
+		exit(-1);
+	while (room_list[i])
+	{
+		j = 0;
+		while (room_list[i][j])
+		{
+			free(room_list[i][j]);
+			j++;
+		}
+		free(room_list[i]);
+		i++;
+	}
+	free(room_list);
+	return (room_list);
+}
+
+// void	free_room_list(t_lemin ***list)
+// {
+// 	int		index;
+// 	t_lemin	**tmp;
+
+// 	tmp = *list;
+// 	index = 0;
+// 	while (tmp[index])
+// 	{
+		// free(tmp[index]->room);
+// 		free(tmp[index]);
+// 		index += 1;
+// 	}
+// 	free(*list);
+// }
+
+int		main(int argc, char **argv)
 {
 	int			gnl;
 	t_string	line;
@@ -162,6 +201,9 @@ int		main(void)
 	t_heap		heap;
 	t_htgroup   *groups;
 	int			i;
+	t_group		*chosen;
+	char 		***room_list;
+	int			fd;
 
 	file = NULL;
 	initialize_data(&data, &ices);
@@ -172,15 +214,17 @@ int		main(void)
 		if (gnl == 1)
 			str_ispnum(line) ? get_ants(&data, line) : quit();
 		else if (!ft_strcmp(line, ""))
-			break ;
+			break ; // test if valid break else quit;
 		else
 			get_graph(&data, line, &ices);
 		add_line(&file, line);
 		line ? free(line) : 0;
 	}
 	line ? free(line) : 0;
+	print_file(file);
 	if (gnl)
-		{if (!(groups = (t_htgroup *)malloc(sizeof(t_htgroup))))
+		{
+			if (!(groups = (t_htgroup *)malloc(sizeof(t_htgroup))))
 			exit(-1);
 		groups->head = NULL;
 		groups->tail = NULL;
@@ -200,23 +244,18 @@ int		main(void)
 			printf("No path found\n");
 			quit();
 		}
-		t_group	*chosen;
-		t_lemin **room_list;
 		chosen = choose_group(groups->head);
-		// print__best_groups(chosen);
 		room_list = convert_chosen_group(chosen);
-		tts_show_results(data.ants, room_list);
-
+		print_room_list(room_list);
+		free_room_list(room_list);
+		free_groups(&(groups->head));
+		free(groups);
+		free_data(&data);
+		free_file(&file);
+		return (0);
 		}
 		else
 		{
 			quit();
 		}
-	// free_visited(&heap);
-	free_data(&data);
-	free_file(&file);
 }
-
-/*
-**	free before quit if !valid
-*/ 

@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/23 14:40:34 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/26 20:21:34 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
 # include <stdio.h>
-# include <fcntl.h>
-# include "libft.h"
+# include "../libft/libft.h"
 # include "file.h"
 # define FD 1
 # define MAX_NODE 10009
@@ -163,9 +162,10 @@ void					print_plist(t_data *data);
 void					print_path(t_path *path);
 void					print_groups(t_group *group);
 void					print__best_groups(t_group *group);
+void					print_room_list(char ***head);
 
 void					get_next_node(t_htqueue **queue, t_room *rooms,
-						t_room *end);
+						t_room *end, t_room *start);
 void					enqueue(t_htqueue **queue, t_room *room);
 void					dequeue(t_htqueue **queue);
 void					link_queue(t_queue **queue, t_queue *new);
@@ -182,22 +182,24 @@ void					unvisit(t_htqueue **queue);
 void					free_bfs(t_heap *heap);
 void				    add_parents(t_htparent **parents, t_room *toadd,
 						t_room *end);
-void					get_shortest(t_room *room, t_room *end,
-						t_htparent **shortest, int *node_num);
+t_htparent				*get_shortest(t_room *room, t_room *end,
+						t_htparent *shortest, int *node_num);
 void					get_groups(t_ind *ices, t_data *data,
 						t_htgroup **groups);
 t_htparent				*new_short(t_room *room, t_htparent *shortest);
 t_group					*choose_group(t_group *group);
 
-void					print_tab_2d_str(t_string **tab, int max);
+void					print_tab_2d_str(t_string **tab);
 t_group					*sort_group(t_group **group);
-t_lemin					**convert_chosen_group(t_group *head);
+char					***convert_chosen_group(t_group *head);
+// t_lemin					**convert_chosen_group(t_group *head);
 void					free_tab_2d_str(t_string **tab);
-// void					loop_on_chosen_group(t_string **group, int *ant,
-// 						t_data *data);
+void					loop_on_chosen_group(t_string **group, int *ant,
+						t_data *data);
 // void	loop_on_chosen_group(t_string **tab, t_group *group, int max_ant);
 void					tts_show_results(int ant_count, t_lemin **room_list);
-void	tts_simulate_moves(int *current_ant, int ant_count, t_lemin **room_list);
+void					tts_simulate_moves(int *current_ant, int ant_count, t_lemin **room_list);
+void					free_groups(t_group **group);
 // void					loop_on_chosen_group(t_string **group, int score, int ants, int node);
 
 

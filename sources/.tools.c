@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   .tools.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:47:33 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/18 17:29:22 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/26 17:16:00 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/lem_in.h"
+
+void		print_room_list(char ***head)
+{
+	int			i;
+	int			j;
+
+	i = 0;
+	if (!head)
+		return ;
+	if (head[i] == NULL)
+		return ;
+	while (head[i])
+	{
+		j = 0;
+		while (head[i][j])
+		{
+			printf("%s ", head[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}
 
 void	print_tab_2d_str(t_string **tab)
 {
@@ -59,7 +82,7 @@ void	print_path(t_path *path)
 	while (tmp)
 	{
 		i++;
-		printf("    path with total nodes(%d): %d\n", tmp->paths->total_node, i);
+		printf("    path (%d):\n", tmp->paths->total_node);
 		printf("	");
 		print_parents(tmp->paths);
 		printf("\n");

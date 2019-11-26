@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/12 18:43:18 by slyazid           #+#    #+#             */
-/*   Updated: 2019/09/21 14:28:56 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/26 20:21:36 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/uio.h>
+# include <fcntl.h>
 # define MAX_FD 1
-# define BUFF_SIZE 1337
+# define BUFF_SIZE 1
 
 typedef char			*t_string;
 
