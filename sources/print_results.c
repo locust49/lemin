@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 14:37:43 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/25 07:44:08 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/26 21:53:44 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,18 @@ t_lemin		**convert_chosen_group(t_group *head)
 	t_path		*tmp;
 	int			index;
 	int			i_room;
+	t_parent	*p_tmp;
+	t_path		*path_tmp;
 
 	index = -1;
 	chosen = (t_lemin**)malloc(sizeof(t_lemin*) * (head->path_num + 1));
 	tmp = head->path->head;
+	path_tmp = tmp;
 	while (++index < head->path_num)
 	{
 		i_room = 0;
 		init_chosen(index, tmp, head, chosen);
+		p_tmp = tmp->paths->head;
 		while (i_room < head->biggest_path_node)
 		{
 			(chosen[index][i_room]).room = tmp->paths->head ?
@@ -44,9 +48,11 @@ t_lemin		**convert_chosen_group(t_group *head)
 			tmp->paths->head ? tmp->paths->head = tmp->paths->head->next : 0;
 			i_room += 1;
 		}
+		tmp->paths->head = p_tmp;
 		chosen[index][i_room].room = NULL;
 		tmp = tmp->next;
 	}
+	tmp = path_tmp;
 	chosen[index] = NULL;
 	return (chosen);
 }
