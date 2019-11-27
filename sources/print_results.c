@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 14:37:43 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 16:39:22 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 19:09:02 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,15 @@ void		tts_simulate_moves(int *current_ant, int ant_count,
 	}
 }
 
+void	tts_print_instruction(int id_ant, t_string room)
+{
+	write(1, "L", 1);
+	ft_putnbr(id_ant);
+	write(1, "-", 1);
+	ft_putstr(room);
+	write(1, " ", 1);
+}
+
 void		tts_print_ants(t_lemin **room_list)
 {
 	size_t	index;
@@ -180,11 +189,8 @@ void		tts_print_ants(t_lemin **room_list)
 			if (room_list[index][jndex].id_ant != -1)
 			{
 				draw_nothing = false;
-				write(1, "L", 1);
-				ft_putnbr(room_list[index][jndex].id_ant);
-				write(1, "-", 1);
-				ft_putstr(room_list[index][jndex].room);
-				write(1, " ", 1);
+				tts_print_instruction(room_list[index][jndex].id_ant,
+				room_list[index][jndex].room);
 			}
 			jndex += 1;
 		}
@@ -193,7 +199,8 @@ void		tts_print_ants(t_lemin **room_list)
 	draw_nothing == false ? write(1, "\n", 1) : 0;
 }
 
-void		tts_show_results(t_file *file, t_data *data, t_lemin **room_list)
+void		tts_show_results(t_file *file, t_data *data,
+			t_ind *ices, t_lemin **room_list)
 {
 	int	current_ant;
 	int	ended;
@@ -201,10 +208,21 @@ void		tts_show_results(t_file *file, t_data *data, t_lemin **room_list)
 	current_ant = 1;
 	ended = 0;
 	print_file(file);
+	if (!ended && current_ant == 1)
+			current_ant -= 1;
+	if (room_list[0]->length == 1)
+	{
+		while (current_ant++ < data->ants)
+		{
+			tts_print_instruction(current_ant,
+			data->r_tab[ices->end->id]->head->name);
+			write(1, "\n", 1);
+		}
+		quit(data, &file, &room_list, 0);
+		return ;
+	}
 	while (current_ant <= data->ants || !ended || (!ended && data->ants == 1))
 	{
-		if (!ended && current_ant == 1)
-			current_ant -= 1;
 		ended = tts_advance_ants(&current_ant, data->ants, room_list);
 		tts_print_ants(room_list);
 	}

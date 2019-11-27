@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 16:55:33 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 19:02:20 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	quit(t_data *data, t_file **file, t_lemin ***room_list, int error)
 	data ? free_data(data) : 0;
 	file ? free_file(file) : 0;
 	error ? ft_putendl_fd("ERROR", 2) : 0;
-	exit(-1);
+	error ? exit(-1) : 0;
 }
 
 t_bool	get_ants(t_data *data, t_string line)
@@ -295,7 +295,7 @@ int		main(void)
 	valid_data(data) ? room_list = dispatch_graph(&ices, &data) :
 	quit(&data, &file, &room_list, 1);
 	(!room_list || !valid_data(data)) ? quit(&data, &file, &room_list, 1) : 0;
-	tts_show_results(file, &data, room_list);
+	tts_show_results(file, &data, &ices, room_list);
 	return (0);
 }
 

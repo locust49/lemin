@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 17:04:16 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 19:00:40 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ t_group					*sort_group(t_group **group);
 t_lemin					**convert_chosen_group(t_group *head);
 void					free_tab_2d_str(t_string **tab);
 void					tts_show_results(t_file *file, t_data *data,
-						t_lemin **room_list);
+						t_ind *ices, t_lemin **room_list);
 
 void					tts_simulate_moves(int *current_ant, int ant_count,
 						t_lemin **room_list);
