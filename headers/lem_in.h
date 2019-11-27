@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 04:44:58 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 17:04:16 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 typedef struct s_room	t_room;
 typedef struct s_indice	t_ind;
-
 
 typedef struct			s_data
 {
@@ -39,7 +38,7 @@ typedef struct			s_link
 	struct s_link	*next;
 }						t_link;
 
-typedef struct 			s_parent
+typedef struct			s_parent
 {
 	t_room			*room;
 	struct s_parent	*next;
@@ -131,17 +130,17 @@ typedef struct			s_lemin
 	int			id_ant;
 }						t_lemin;
 
-
 void					debug(void);
+void					quit(t_data *data, t_file **file, t_lemin ***room_list,
+						int error);
 
-// void					quit(void);
 void					free_data(t_data *data);
-t_room	*find_node(long long link_id, char *name, t_data *data);
+t_room					*find_node(long long link_id, char *name, t_data *data);
 
 t_bool					str_ispnum(t_string line);
 t_bool					str_iscomment(t_string line);
 t_bool					str_iscommand(t_data *data, t_string line);
-t_bool					str_room_link(t_string line); 
+t_bool					str_room_link(t_string line);
 t_bool					before_links(t_data data);
 t_bool					valid_data(t_data data);
 
@@ -182,7 +181,7 @@ void					update_graph(t_ind *ices);
 void					rupdate_graph(t_ind *ices, t_room *room);
 void					unvisit(t_htqueue **queue);
 void					free_bfs(t_heap *heap);
-void				    add_parents(t_htparent **parents, t_room *toadd,
+void					add_parents(t_htparent **parents, t_room *toadd,
 						t_room *end);
 void					get_shortest(t_room *room, t_room *end,
 						t_htparent **shortest, int *node_num);
@@ -191,21 +190,18 @@ void					get_groups(t_ind *ices, t_data *data,
 void					new_short(t_room *room, t_htparent **shortest);
 t_group					*choose_group(t_group *group);
 
-//void					print_tab_2d_str(t_string **tab, int max);
 t_group					*sort_group(t_group **group);
 t_lemin					**convert_chosen_group(t_group *head);
 void					free_tab_2d_str(t_string **tab);
-// void					loop_on_chosen_group(t_string **group, int *ant,
-// 						t_data *data);
-// void	loop_on_chosen_group(t_string **tab, t_group *group, int max_ant);
-void					tts_show_results(int ant_count, t_lemin **room_list);
-void					tts_simulate_moves(int *current_ant, int ant_count, t_lemin **room_list);
-// void					loop_on_chosen_group(t_string **group, int score, int ants, int node);
-t_room	*new_room(t_string line, int thisid);
-void	free_room_list(t_lemin ***list);
+void					tts_show_results(t_file *file, t_data *data,
+						t_lemin **room_list);
+
+void					tts_simulate_moves(int *current_ant, int ant_count,
+						t_lemin **room_list);
+t_room					*new_room(t_string line, int thisid);
+void					free_room_list(t_lemin ***list);
 
 void					print_data(t_data data);
 void					free_parents(t_htparent **parents);
-
 
 #endif

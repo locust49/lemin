@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 16:06:01 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 06:48:14 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 15:51:14 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,18 @@ long long	add_room(t_string line, t_data *data)
 	{
 		data->r_tab[hash_id]->head = new_room(line, hash_id);
 		data->r_tab[hash_id]->tail = data->r_tab[hash_id]->head;
-	}
-	else
-	{
-		if (!(found = find_node(hash_id, name, data)))
-		{
-			data->r_tab[hash_id]->tail->next = new_room(line, hash_id);
-			data->r_tab[hash_id]->tail = data->r_tab[hash_id]->tail->next;
-			name ? free(name) : 0;
-			return (hash_id);
-		}
 		name ? free(name) : 0;
-		return (-1);
+		return (hash_id);
+	}
+	if (!(found = find_node(hash_id, name, data)))
+	{
+		data->r_tab[hash_id]->tail->next = new_room(line, hash_id);
+		data->r_tab[hash_id]->tail = data->r_tab[hash_id]->tail->next;
+		name ? free(name) : 0;
+		return (hash_id);
 	}
 	name ? free(name) : 0;
-	return (hash_id);
+	return (-1);
 }
 
 void		store_start(t_string line, t_ind *ind, t_data *data)

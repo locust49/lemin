@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 06:58:39 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 16:55:33 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,12 @@ void	initialize_data(t_data *data, t_ind *ices,
 	}
 }
 
-// void	print_data(t_data *data)
-// {
-// 	printf(" data->ants = %d\n", data->ants);
-// 	printf(" data->info.room = %d\n", data->info.room);
-// 	printf(" data->info.link = %d\n", data->info.link);
-// 	printf(" data->info.start = %d\n", data->info.start);
-// 	printf(" data->info.end = %d\n", data->info.end);
-// }
-
-void	quit(t_data *data, t_file **file, t_lemin ***room_list)
+void	quit(t_data *data, t_file **file, t_lemin ***room_list, int error)
 {
 	room_list && *room_list ? free_room_list(room_list) : 0;
 	data ? free_data(data) : 0;
 	file ? free_file(file) : 0;
-	ft_putendl_fd("ERROR", 1);
-	// ft_putendl_fd("\x1b[31:0mERROR\x1b[0:0m", 2);
+	error ? ft_putendl_fd("ERROR", 2) : 0;
 	exit(-1);
 }
 
@@ -97,9 +87,7 @@ t_bool	store_room(t_data *data, t_string line, t_ind *ices)
 
 t_bool	get_graph(t_data *data, t_string line, t_ind *ices)
 {
-	if (str_iscomment(line) == false
-		&& str_iscommand(data, line) == false
-		&& str_room_link(line) == true)
+	if (!str_iscomment(line) && !str_iscommand(data, line) && str_room_link(line))
 	{
 		if (ft_strchr(line, ' ') && !ft_strchr(line, '-'))
 		{
@@ -107,37 +95,53 @@ t_bool	get_graph(t_data *data, t_string line, t_ind *ices)
 			if ((store_room(data, line, ices) == false))
 				return (false);
 		}
-		if (ft_strchr(line, '-') && !ft_strchr(line, ' ')
-			&& before_links(*data) == true)
+		if (ft_strchr(line, '-') && !ft_strchr(line, ' ') && before_links(*data))
 		{
 			data->info.room == 0 ? data->info.room = 1 : 0;
 			data->info.link == -1 ? data->info.link = 0 : 0;
 			if (store_link(data, line) == false)
 				return (false);
 		}
-		else if (ft_strchr(line, '-') && (ft_strchr(line, ' ')))
+		else if (ft_strchr(line, '-') && (ft_strchr(line, ' ')
+			|| ((before_links(*data) == false) || ft_strchr(line, ' '))))
 			return (false);
-		else if ((ft_strchr(line, '-')
-		&& ((before_links(*data) == false) || ft_strchr(line, ' '))))
-		{
-			// printf("get_graph 1\n");
-			return (false);
-		}
 	}
-	else if (str_iscomment(line) == false && str_iscommand(data, line) == false
-		&& str_room_link(line) == false)
-	{
-		// printf("get_graph 2\nline %s\n", line);
+	else if (!str_iscomment(line) && !str_iscommand(data, line)
+			&& !str_room_link(line))
 		return (false);
-	}
-	else if (str_iscomment(line) == true || str_iscommand(data, line) == true)
+	else if (str_iscomment(line) || str_iscommand(data, line))
 		return (true);
-	else
-	{
-		printf("hi\n");
-	}
 	return (true);
 }
+
+// t_bool	get_graph(t_data *data, t_string line, t_ind *ices)
+// {
+// 	if (!str_iscomment(line) && !str_iscommand(data, line) && str_room_link(line))
+// 	{
+// 		if (ft_strchr(line, ' ') && !ft_strchr(line, '-'))
+// 		{
+// 			data->info.room == -1 ? data->info.room = 0 : 0;
+// 			if ((store_room(data, line, ices) == false))
+// 				return (false);
+// 		}
+// 		if (ft_strchr(line, '-') && !ft_strchr(line, ' ') && before_links(*data))
+// 		{
+// 			data->info.room == 0 ? data->info.room = 1 : 0;
+// 			data->info.link == -1 ? data->info.link = 0 : 0;
+// 			if (store_link(data, line) == false)
+// 				return (false);
+// 		}
+// 		else if (ft_strchr(line, '-') && (ft_strchr(line, ' ')
+// 			|| ((before_links(*data) == false) || ft_strchr(line, ' '))))
+// 			return (false);
+// 	}
+// 	else if (str_iscomment(line) == false && str_iscommand(data, line) == false
+// 			&& str_room_link(line) == false)
+// 		return (false);
+// 	else if (str_iscomment(line) == true || str_iscommand(data, line) == true)
+// 		return (true);
+// 	return (true);
+// }
 
 void	free_room(t_room *room)
 {
@@ -180,32 +184,31 @@ void	free_data(t_data *data)
 void	free_parents(t_htparent **parents)
 {
 	t_parent *tmp;
-    t_parent *del;
+	t_parent *del;
 
 	del = (*parents)->head;
 	while (del)
 	{
 		tmp = del->next;
-        ft_memdel((void**)&del);
-        del = tmp;
+		ft_memdel((void**)&del);
+		del = tmp;
 	}
 	ft_memdel((void**)&del);
-	// ft_memdel((void**)parents);
 }
 
 void	free_path(t_path **path)
 {
 	t_path *tmp;
-    t_path *del;
+	t_path *del;
 
 	del = (*path);
 	while (del)
 	{
 		tmp = del->next;
-        free_parents(&(del->paths));
+		free_parents(&(del->paths));
 		ft_memdel((void**)&(del->paths));
 		ft_memdel((void**)&del);
-        del = tmp;
+		del = tmp;
 	}
 }
 
@@ -217,42 +220,14 @@ void	free_groups(t_group **group)
 	del = (*group);
 	while (del)
 	{
-        tmp = del->next;
+		tmp = del->next;
 		free_path(&(del->path->head));
 		ft_memdel((void**)&del->path);
-        ft_memdel((void**)&del);
+		ft_memdel((void**)&del);
 		del = tmp;
 	}
+	ft_memdel((void**)&group);
 }
-
-
-// void	free_group(t_group **group)
-// {
-// 	t_parent	*parent;
-// 	t_parent	*tmp_parent;
-// 	t_group		*tmp_group;
-
-// 	while (group && *group)
-// 	{
-// 		tmp_group = *group;
-// 		parent = tmp_group->path->head->paths->head;
-// 		while (parent)
-// 		{
-// 			tmp_parent = parent;
-// 			free_room(tmp_parent->room);
-// 			ft_memdel((void**)&tmp_parent);
-// 			parent = parent->next;
-// 		}
-// 		*group = (*group)->next;
-// 		ft_memdel((void**)&tmp_group);
-// 	}
-// 	ft_memdel((void**)group);
-// }
-
-// void	free_heap(t_heap *heap)
-// {
-	
-// }
 
 void	free_room_list(t_lemin ***list)
 {
@@ -273,7 +248,6 @@ t_lemin	**dispatch_graph(t_ind *ices, t_data *data)
 {
 	t_htgroup	*groups;
 	t_heap		heap;
-	t_group		*chosen;
 	t_bool		path_found;
 	t_lemin		**list;
 
@@ -292,22 +266,10 @@ t_lemin	**dispatch_graph(t_ind *ices, t_data *data)
 		update_graph(ices);
 		get_groups(ices, data, &groups);
 	}
-	if (path_found == false)
-	{
-		groups && groups->head? free_groups(&(groups->head)) : 0;
-		groups ? free(groups) : 0;
-		return (NULL);
-	}
-	chosen = choose_group(groups->head);
-	list = convert_chosen_group(chosen);
-	free_groups(&(groups->head));
-	free(groups);
+	list = path_found ? convert_chosen_group(choose_group(groups->head)) : 0;
+	groups && groups->head ? free_groups(&(groups->head)) : 0;
 	return (list);
 }
-
-/*
-**	quit will take data, ices and file as parameters to free in case of error;
-*/
 
 int		main(void)
 {
@@ -316,36 +278,24 @@ int		main(void)
 	t_data		data;
 	t_ind		ices;
 	t_lemin		**room_list;
-	t_bool		g;
 
-	g = true;
 	initialize_data(&data, &ices, &file, &room_list);
-	if (get_next_line(0, &line) <= 0 || !str_ispnum(line) ||
-		!get_ants(&data, line))
-		quit(&data, &file, &room_list);
+	if (get_next_line(0, &line) <= 0 || !str_ispnum(line)
+		|| !get_ants(&data, line))
+		quit(&data, &file, &room_list, 1);
 	add_line(&file, line);
-	ft_memdel((void**)&line);
 	while (get_next_line(0, &line) > 0)
 	{
-		if (!ft_strcmp(line, ""))
-			break ;
-		if (((g = get_graph(&data, line, &ices)) == false))
+		if (!ft_strcmp(line, "") || !get_graph(&data, line, &ices))
 			break ;
 		add_line(&file, line);
-		line ? ft_memdel((void**)&line) : 0;
 	}
-	data.info.link == 0 ? data.info.link = 1 : 0;
 	line ? ft_memdel((void**)&line) : 0;
-	!g ? quit(&data, &file, &room_list) : 0;
-	valid_data(data) ? room_list = dispatch_graph(&ices, &data) : 0;
-	
-	if (!room_list || !valid_data(data))
-		quit(&data, &file, &room_list);
-	print_file(file);
-	tts_show_results(data.ants, room_list);
-	free_room_list(&room_list);
-	free_data(&data);
-	free_file(&file);
+	data.info.link == 0 ? data.info.link = 1 : 0;
+	valid_data(data) ? room_list = dispatch_graph(&ices, &data) :
+	quit(&data, &file, &room_list, 1);
+	(!room_list || !valid_data(data)) ? quit(&data, &file, &room_list, 1) : 0;
+	tts_show_results(file, &data, room_list);
 	return (0);
 }
 

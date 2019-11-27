@@ -6,13 +6,13 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/01 19:50:41 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/25 13:29:30 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 15:44:33 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_parent *new_parent(t_room *room)
+t_parent	*new_parent(t_room *room)
 {
 	t_parent	*new;
 
@@ -23,7 +23,7 @@ t_parent *new_parent(t_room *room)
 	return (new);
 }
 
-void	new_short(t_room *room, t_htparent **shortest)
+void		new_short(t_room *room, t_htparent **shortest)
 {
 	if ((*shortest)->head == NULL)
 	{
@@ -39,7 +39,8 @@ void	new_short(t_room *room, t_htparent **shortest)
 	}
 }
 
-void		get_shortest(t_room *room, t_room *end, t_htparent **shortest, int *node_num)
+void		get_shortest(t_room *room, t_room *end,
+			t_htparent **shortest, int *node_num)
 {
 	t_room		*tmp;
 	t_link		*link;

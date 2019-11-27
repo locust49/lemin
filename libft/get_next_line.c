@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 04:39:02 by aelouarg          #+#    #+#             */
-/*   Updated: 2019/11/27 04:44:34 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 17:06:17 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int						get_next_line(int const fd, char **line)
 	*line = ft_strsub(tab[fd], 0, ft_linelen(tab[fd]));
 	if (ft_line(tab[fd]) == NULL)
 	{
-		tab[fd] ? ft_memdel((void**)&tab[fd]): 0;
+		tab[fd] ? ft_memdel((void**)&tab[fd]) : 0;
 		return (0);
 	}
 	return (1);

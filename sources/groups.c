@@ -6,13 +6,13 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 15:46:17 by otel-jac          #+#    #+#             */
-/*   Updated: 2019/11/25 05:41:11 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 15:46:41 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_path		*new_path(t_room *room, t_ind *ices, int *node_num)
+t_path			*new_path(t_room *room, t_ind *ices, int *node_num)
 {
 	t_htparent	*shortest;
 	t_path		*new;
@@ -31,7 +31,7 @@ t_path		*new_path(t_room *room, t_ind *ices, int *node_num)
 	return (new);
 }
 
-void		get_path(t_room *room, t_ind *ices, t_htpath **paths,
+void			get_path(t_room *room, t_ind *ices, t_htpath **paths,
 				int *node_num)
 {
 	t_path		*new;
@@ -50,16 +50,15 @@ void		get_path(t_room *room, t_ind *ices, t_htpath **paths,
 t_group			*new_groups(t_ind *ices)
 {
 	t_link		*link;
-	t_htpath	*path;
 	t_group		*new;
 
 	link = ices->start->links;
 	if (!(new = (t_group*)malloc(sizeof(t_group))))
 		exit(-1);
-	if (!(path = (t_htpath*)malloc(sizeof(t_htpath))))
+	if (!(new->path = (t_htpath*)malloc(sizeof(t_htpath))))
 		exit(-1);
-	path->head = NULL;
-	path->tail = NULL;
+	new->path->head = NULL;
+	new->path->tail = NULL;
 	new->path_num = 0;
 	new->node_num = 0;
 	while (link)
@@ -67,12 +66,11 @@ t_group			*new_groups(t_ind *ices)
 		if (link->flow == 0)
 		{
 			new->path_num += 1;
-			get_path(link->to, ices, &path, &new->node_num);
+			get_path(link->to, ices, &new->path, &new->node_num);
 		}
 		link = link->next;
 	}
 	new->biggest_path_node = 0;
-	new->path = path;
 	new->next = NULL;
 	return (new);
 }
@@ -81,7 +79,7 @@ t_group			*new_groups(t_ind *ices)
 **	Store the groups with the paths that don't intersect.
 */
 
-void		get_groups(t_ind *ices, t_data *data, t_htgroup **groups)
+void			get_groups(t_ind *ices, t_data *data, t_htgroup **groups)
 {
 	t_group		*new;
 

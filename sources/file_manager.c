@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/09/30 18:12:32 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 16:34:38 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	add_line(t_file **file, t_string newline)
 		(*file) = (t_file*)malloc(sizeof(t_file));
 		(*file)->line = ft_strdup(newline);
 		(*file)->next = NULL;
+		ft_memdel((void**)&newline);
 		return ;
 	}
 	eof = *file;
@@ -29,6 +30,7 @@ void	add_line(t_file **file, t_string newline)
 	eof->next = (t_file*)malloc(sizeof(t_file));
 	eof->next->line = ft_strdup(newline);
 	eof->next->next = NULL;
+	ft_memdel((void**)&newline);
 }
 
 void	free_file(t_file **file)
