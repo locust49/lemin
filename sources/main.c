@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/25 13:02:54 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 06:58:39 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,19 @@ t_bool	get_ants(t_data *data, t_string line)
 
 t_bool	store_room(t_data *data, t_string line, t_ind *ices)
 {
+	long long add;
+
+	add = 0;
 	data->rooms += 1;
 	if (data->info.start == 0 && data->info.end != 0)
 		store_start(line, ices, data);
 	else if (data->info.end == 0 && data->info.start != 0)
 		store_end(line, ices, data);
 	else if (data->info.room == 0 || data->info.room == -1)
-		if ((add_room(line, data) == -1))
+	{
+		if (((add = add_room(line, data)) < 0))
 			return (false);
+	}
 	return (true);
 }
 
@@ -341,7 +346,6 @@ int		main(void)
 	free_room_list(&room_list);
 	free_data(&data);
 	free_file(&file);
-	exit(0);
 	return (0);
 }
 

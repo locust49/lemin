@@ -21,7 +21,7 @@ NAME		=	lem-in
 LIBR		=	libft
 LBIN		=	libft/libft.a
 
-HDRS		=	-I./headers
+HDRS		=	-I./headers -I./libft
 FILENAMES	=	file_manager.c checker.c links.c rooms.c hashing.c bfs.c update_graph.c \
 				parents.c queue.c .tools.c main.c print_results.c groups.c
 

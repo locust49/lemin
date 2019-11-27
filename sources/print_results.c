@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 14:37:43 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/26 21:53:44 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 07:32:59 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	tts_simulate_moves(int *current_ant, int ant_count, t_lemin **room_list)
 	tts_initialize_simulation(room_list);
 	while (ant_to_decide <= ant_count)
 	{
+		printf("%d\n", ant_to_decide);
 		best_route = NULL;
 		tts_set_best_route(room_list, &best_route);
 		if (best_route)

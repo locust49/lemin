@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/25 13:23:00 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 04:44:58 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ void					get_groups(t_ind *ices, t_data *data,
 void					new_short(t_room *room, t_htparent **shortest);
 t_group					*choose_group(t_group *group);
 
-void					print_tab_2d_str(t_string **tab, int max);
+//void					print_tab_2d_str(t_string **tab, int max);
 t_group					*sort_group(t_group **group);
 t_lemin					**convert_chosen_group(t_group *head);
 void					free_tab_2d_str(t_string **tab);

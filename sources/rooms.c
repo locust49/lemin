@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/16 16:06:01 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/25 11:56:34 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/11/27 06:48:14 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void		store_start(t_string line, t_ind *ind, t_data *data)
 
 	data->info.start = 1;
 	start_id = add_room(line, data);
+	if (start_id < 0)
+		return ;
 	ind->start = data->r_tab[start_id]->tail;
 }
 
@@ -74,5 +76,7 @@ void		store_end(t_string line, t_ind *ind, t_data *data)
 
 	data->info.end = 1;
 	end_id = add_room(line, data);
+	if (end_id < 0)
+		return ;
 	ind->end = data->r_tab[end_id]->tail;
 }
