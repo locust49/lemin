@@ -6,65 +6,11 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 14:37:43 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 19:09:02 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/12/02 07:32:56 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-void		init_chosen(int index, t_path *tmp,
-			t_group *head, t_lemin **chosen)
-{
-	chosen[index] = (t_lemin *)malloc(sizeof(t_lemin) *
-					(1 + head->biggest_path_node));
-	chosen[index]->length = tmp->paths->total_node;
-	chosen[index]->virtual_len = 0;
-	chosen[index]->blocked = 0;
-}
-
-void		copy_to_chosen(int index, t_path *tmp,
-		t_group *head, t_lemin **chosen)
-{
-	t_parent	*p_tmp;
-	int			i_room;
-
-	i_room = 0;
-	p_tmp = tmp->paths->head;
-	while (i_room < head->biggest_path_node)
-	{
-		(chosen[index][i_room]).room = tmp->paths->head ?
-		tmp->paths->head->room->name : NULL;
-		chosen[index][i_room].id_ant = -1;
-		tmp->paths->head ? tmp->paths->head = tmp->paths->head->next : 0;
-		i_room += 1;
-	}
-	chosen[index][i_room].room = NULL;
-	tmp->paths->head = p_tmp;
-}
-
-t_lemin		**convert_chosen_group(t_group *head)
-{
-	t_lemin		**chosen;
-	t_path		*tmp;
-	int			index;
-	t_parent	*p_tmp;
-	t_path		*path_tmp;
-
-	index = -1;
-	chosen = (t_lemin**)malloc(sizeof(t_lemin*) * (head->path_num + 1));
-	tmp = head->path->head;
-	path_tmp = tmp;
-	while (++index < head->path_num)
-	{
-		init_chosen(index, tmp, head, chosen);
-		p_tmp = tmp->paths->head;
-		copy_to_chosen(index, tmp, head, chosen);
-		tmp = tmp->next;
-	}
-	tmp = path_tmp;
-	chosen[index] = NULL;
-	return (chosen);
-}
 
 int			tts_shift_path_ants(t_lemin *path)
 {
@@ -105,66 +51,7 @@ int			tts_advance_ants(int *current_ant, int ant_count,
 	return (ended);
 }
 
-static void	tts_initialize_simulation(t_lemin **room_list)
-{
-	int i;
-
-	i = 0;
-	while (room_list[i])
-	{
-		room_list[i]->blocked = 0;
-		room_list[i]->virtual_len = room_list[i]->length;
-		i += 1;
-	}
-}
-
-static void	tts_set_best_route(t_lemin **room_list, t_lemin **best_route)
-{
-	size_t	index;
-	int		best_length;
-
-	best_length = __INT_MAX__;
-	index = 0;
-	while (room_list[index])
-	{
-		if (room_list[index]->virtual_len < best_length ||
-			(room_list[index]->virtual_len == best_length &&
-			room_list[index]->blocked == 0))
-		{
-			*best_route = room_list[index];
-			best_length = room_list[index]->virtual_len;
-		}
-		index++;
-	}
-}
-
-void		tts_simulate_moves(int *current_ant, int ant_count,
-			t_lemin **room_list)
-{
-	t_lemin	*best_route;
-	int		ant_to_decide;
-
-	ant_to_decide = *current_ant;
-	tts_initialize_simulation(room_list);
-	while (ant_to_decide <= ant_count)
-	{
-		best_route = NULL;
-		tts_set_best_route(room_list, &best_route);
-		if (best_route)
-		{
-			if (!best_route->blocked)
-			{
-				best_route[1].id_ant = *current_ant;
-				best_route->blocked = 1;
-				(*current_ant)++;
-			}
-			best_route->virtual_len++;
-		}
-		ant_to_decide++;
-	}
-}
-
-void	tts_print_instruction(int id_ant, t_string room)
+void		tts_print_instruction(int id_ant, t_string room)
 {
 	write(1, "L", 1);
 	ft_putnbr(id_ant);
@@ -209,7 +96,7 @@ void		tts_show_results(t_file *file, t_data *data,
 	ended = 0;
 	print_file(file);
 	if (!ended && current_ant == 1)
-			current_ant -= 1;
+		current_ant -= 1;
 	if (room_list[0]->length == 1)
 	{
 		while (current_ant++ < data->ants)

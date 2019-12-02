@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 14:33:38 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 16:14:52 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/12/02 07:37:17 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,10 @@ t_bool	before_links(t_data data)
 ** valid data need more conditions about if the graph is linked or not ;)
 */
 
-t_bool	enough_data(t_data data)
+t_bool	valid_data(t_data data)
 {
 	if (data.info.room == 1 && data.info.link == 1 &&
 		data.info.start == 1 && data.info.end == 1)
 		return (true);
 	return (false);
-}
-
-t_bool	valid_data(t_data data)
-{
-	return (enough_data(data) && true);
 }

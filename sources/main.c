@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/30 16:34:02 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 19:02:20 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/12/02 07:49:14 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,59 +89,29 @@ t_bool	get_graph(t_data *data, t_string line, t_ind *ices)
 {
 	if (!str_iscomment(line) && !str_iscommand(data, line) && str_room_link(line))
 	{
-		if (ft_strchr(line, ' ') && !ft_strchr(line, '-'))
+		if (ft_xor(ft_strchr(line, ' '), ft_strchr(line, '-')))
 		{
-			data->info.room == -1 ? data->info.room = 0 : 0;
-			if ((store_room(data, line, ices) == false))
-				return (false);
+			if (ft_strchr(line, ' '))
+			{
+				data->info.room == -1 ? data->info.room = 0 : 0;
+				return (store_room(data, line, ices));
+			}
+			if (ft_strchr(line, '-'))
+			{
+				if (!before_links(*data))
+					return (false);
+				data->info.room == 0 ? data->info.room = 1 : 0;
+				data->info.link == -1 ? data->info.link = 0 : 0;
+				return (store_link(data, line));
+			}
 		}
-		if (ft_strchr(line, '-') && !ft_strchr(line, ' ') && before_links(*data))
-		{
-			data->info.room == 0 ? data->info.room = 1 : 0;
-			data->info.link == -1 ? data->info.link = 0 : 0;
-			if (store_link(data, line) == false)
-				return (false);
-		}
-		else if (ft_strchr(line, '-') && (ft_strchr(line, ' ')
-			|| ((before_links(*data) == false) || ft_strchr(line, ' '))))
+		else
 			return (false);
 	}
-	else if (!str_iscomment(line) && !str_iscommand(data, line)
-			&& !str_room_link(line))
-		return (false);
 	else if (str_iscomment(line) || str_iscommand(data, line))
 		return (true);
-	return (true);
+	return (false);
 }
-
-// t_bool	get_graph(t_data *data, t_string line, t_ind *ices)
-// {
-// 	if (!str_iscomment(line) && !str_iscommand(data, line) && str_room_link(line))
-// 	{
-// 		if (ft_strchr(line, ' ') && !ft_strchr(line, '-'))
-// 		{
-// 			data->info.room == -1 ? data->info.room = 0 : 0;
-// 			if ((store_room(data, line, ices) == false))
-// 				return (false);
-// 		}
-// 		if (ft_strchr(line, '-') && !ft_strchr(line, ' ') && before_links(*data))
-// 		{
-// 			data->info.room == 0 ? data->info.room = 1 : 0;
-// 			data->info.link == -1 ? data->info.link = 0 : 0;
-// 			if (store_link(data, line) == false)
-// 				return (false);
-// 		}
-// 		else if (ft_strchr(line, '-') && (ft_strchr(line, ' ')
-// 			|| ((before_links(*data) == false) || ft_strchr(line, ' '))))
-// 			return (false);
-// 	}
-// 	else if (str_iscomment(line) == false && str_iscommand(data, line) == false
-// 			&& str_room_link(line) == false)
-// 		return (false);
-// 	else if (str_iscomment(line) == true || str_iscommand(data, line) == true)
-// 		return (true);
-// 	return (true);
-// }
 
 void	free_room(t_room *room)
 {
@@ -278,7 +248,7 @@ int		main(void)
 	t_data		data;
 	t_ind		ices;
 	t_lemin		**room_list;
-
+	
 	initialize_data(&data, &ices, &file, &room_list);
 	if (get_next_line(0, &line) <= 0 || !str_ispnum(line)
 		|| !get_ants(&data, line))

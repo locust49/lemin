@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 16:47:33 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/18 17:29:22 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/12/02 07:49:17 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,3 +271,44 @@ void	print_ices(t_ind *ices)
 	printf("START	:	%s  	|\n", ices->start->name);
 	printf("________________\n");
 }
+
+
+void			init_chosen(int index, t_path *tmp,
+				t_group *head, t_lemin **chosen)
+{
+	chosen[index] = (t_lemin *)malloc(sizeof(t_lemin) *
+					(1 + head->biggest_path_node));
+	chosen[index]->length = tmp->paths->total_node;
+	chosen[index]->virtual_len = 0;
+	chosen[index]->blocked = 0;
+}
+
+
+// t_bool	get_graph(t_data *data, t_string line, t_ind *ices)
+// {
+// 	if (!str_iscomment(line) && !str_iscommand(data, line) && str_room_link(line))
+// 	{
+// 		if (ft_strchr(line, ' ') && !ft_strchr(line, '-'))
+// 		{
+// 			data->info.room == -1 ? data->info.room = 0 : 0;
+// 			if ((store_room(data, line, ices) == false))
+// 				return (false);
+// 		}
+// 		if (ft_strchr(line, '-') && !ft_strchr(line, ' ') && before_links(*data))
+// 		{
+// 			data->info.room == 0 ? data->info.room = 1 : 0;
+// 			data->info.link == -1 ? data->info.link = 0 : 0;
+// 			if (store_link(data, line) == false)
+// 				return (false);
+// 		}
+// 		else if (ft_strchr(line, '-') && (ft_strchr(line, ' ')
+// 			|| ((before_links(*data) == false) || ft_strchr(line, ' '))))
+// 			return (false);
+// 	}
+// 	else if (str_iscomment(line) == false && str_iscommand(data, line) == false
+// 			&& str_room_link(line) == false)
+// 		return (false);
+// 	else if (str_iscomment(line) == true || str_iscommand(data, line) == true)
+// 		return (true);
+// 	return (true);
+// }
