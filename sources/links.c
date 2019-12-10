@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   links.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 13:11:46 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/25 06:57:24 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/12/04 15:24:11 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,18 @@ t_link	*new_link(t_room *room)
 
 void	add_link(t_link **links, t_room *room)
 {
-	if (!*links)
+	if (check_links(*links, room) == 0)
 	{
-		(*links) = new_link(room);
-		(*links)->tail = *links;
-	}
-	else
-	{
-		(*links)->tail->next = new_link(room);
-		(*links)->tail = (*links)->tail->next;
+		if (!*links)
+		{
+			(*links) = new_link(room);
+			(*links)->tail = *links;
+		}
+		else
+		{
+			(*links)->tail->next = new_link(room);
+			(*links)->tail = (*links)->tail->next;
+		}
 	}
 }
 

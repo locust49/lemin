@@ -14,7 +14,7 @@ _CYAN=$'\x1b[36m
 _WHITE=$'\x1b[37m
 
 PROJECT		=	lem-in
-CMPL		=	gcc -g
+CMPL		=	gcc
 FLGS		=	-Wall -Wextra -Werror
 
 NAME		=	lem-in
@@ -23,7 +23,8 @@ LBIN		=	libft/libft.a
 
 HDRS		=	-I./headers -I./libft
 FILENAMES	=	file_manager.c checker.c links.c rooms.c hashing.c bfs.c update_graph.c \
-				parents.c queue.c .tools.c main.c print_results.c groups.c
+				parents.c queue.c main.c print_results.c groups.c choose_path.c \
+				simulate_results.c error_managing.c chosen_group.c garbage_collector.c lem_in.c
 
 SRC_DIR		=	sources
 OBJ_DIR 	=	objects

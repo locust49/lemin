@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/12 18:43:18 by slyazid           #+#    #+#             */
-/*   Updated: 2019/09/21 14:28:56 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/12/02 15:14:52 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,7 @@ t_list					*ft_lstdel_elt(t_list *lst, int index);
 void					ft_putlst(t_list *lst);
 t_list					*ft_lstadd_elt(t_list *lst, t_list *new, int index);
 char					*ft_trim_delim(char const *s, char c);
+t_bool					ft_xor(char *str0, char *str1);
 int						get_next_line(const int fd, char **line);
+t_bool					ft_ispnum(t_string str);
 #endif

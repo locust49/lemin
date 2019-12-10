@@ -6,35 +6,13 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/15 14:33:38 by slyazid           #+#    #+#             */
-/*   Updated: 2019/12/02 07:37:17 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/12/10 14:32:11 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_bool	str_ispnum(t_string line)
-{
-	int	i;
-
-	i = -1;
-	while (line[++i])
-		if (!ft_isdigit(line[i]))
-			return (false);
-	return (true);
-}
-
-t_bool	str_iscomment(t_string line)
-{
-	if (*line == '#' && *(line + 1) != '#')
-		return (true);
-	return (false);
-}
-
-/*
-** || (!ft_strequ(line, "##start") && !ft_strequ(line, "##end")))
-*/
-
-t_bool	str_iscommand(t_data *data, t_string line)
+t_bool	str_iscommand_comment(t_data *data, t_string line)
 {
 	if (line && *line == '#' && (line + 1) && *(line + 1) == '#')
 	{
@@ -50,6 +28,8 @@ t_bool	str_iscommand(t_data *data, t_string line)
 			return (false);
 		return (true);
 	}
+	else if (*line == '#' && *(line + 1) != '#')
+		return (true);
 	return (false);
 }
 
@@ -62,7 +42,7 @@ t_bool	str_iscoords(t_string line)
 
 	tmp = ft_strrchr(line, ' ') + 1;
 	first = ft_strsub(line, 0, (int)(tmp - 1 - line));
-	if (tmp && first && str_ispnum(tmp) && str_ispnum(first))
+	if (tmp && first && ft_ispnum(tmp) && ft_ispnum(first))
 	{
 		test0 = ft_atoi(tmp);
 		test1 = ft_atoi(first);
@@ -75,10 +55,6 @@ t_bool	str_iscoords(t_string line)
 	first ? free(first) : 0;
 	return (false);
 }
-
-/*
-** change line 89 : *(tmp + 1) != '-') with check if room exists;
-*/
 
 t_bool	str_room_link(t_string line)
 {
@@ -100,10 +76,6 @@ t_bool	before_links(t_data data)
 		return (true);
 	return (false);
 }
-
-/*
-** valid data need more conditions about if the graph is linked or not ;)
-*/
 
 t_bool	valid_data(t_data data)
 {

@@ -6,7 +6,7 @@
 /*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 13:19:26 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 19:18:04 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/12/02 17:06:22 by slyazid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	bfs(t_ind *ices, t_heap *heap)
 			heap->nopath = 1;
 			break ;
 		}
+		dequeue(&(heap->queue));
 	}
 	free_bfs_queue(heap);
 	unvisit(&(heap->visited));

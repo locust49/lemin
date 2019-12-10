@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/16 18:45:16 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/27 19:00:40 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/12/04 15:38:07 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,78 +130,76 @@ typedef struct			s_lemin
 	int			id_ant;
 }						t_lemin;
 
-void					debug(void);
-void					quit(t_data *data, t_file **file, t_lemin ***room_list,
-						int error);
-
-void					free_data(t_data *data);
-t_room					*find_node(long long link_id, char *name, t_data *data);
-
-t_bool					str_ispnum(t_string line);
-t_bool					str_iscomment(t_string line);
-t_bool					str_iscommand(t_data *data, t_string line);
-t_bool					str_room_link(t_string line);
-t_bool					before_links(t_data data);
-t_bool					valid_data(t_data data);
-
-long long				get_hash_id(t_string s);
-
-t_bool					store_link(t_data *data, t_string line);
-void					free_links(t_link **links);
-
-long long				add_room(t_string line, t_data *data);
-void					store_start(t_string line, t_ind *ind, t_data *data);
-void					store_end(t_string line, t_ind *ind, t_data *data);
-
-void					print_rooms(t_data *rooms, int link);
-void					print_ices(t_ind *ices);
-void					print_queue(t_queue *queue);
-void					print_links(t_link *lnk);
-void					print_parent(t_ind *ices);
-void					print_short(t_ind *ices);
-void					print_parents(t_htparent *parents);
-void					print_plist(t_data *data);
-void					print_path(t_path *path);
-void					print_groups(t_group *group);
-void					print__best_groups(t_group *group);
-
-void					get_next_node(t_htqueue **queue, t_room *rooms,
-						t_room *end);
-void					enqueue(t_htqueue **queue, t_room *room);
-void					dequeue(t_htqueue **queue);
-void					link_queue(t_queue **queue, t_queue *new);
-void					free_room(t_room *room);
-void					free_queue(t_queue **queue);
-
-void					update(t_link *link, t_room *room);
-
-void					bfs(t_ind *ices, t_heap *heap);
-void					init_heap(t_heap *heap);
-void					update_graph(t_ind *ices);
-void					rupdate_graph(t_ind *ices, t_room *room);
-void					unvisit(t_htqueue **queue);
-void					free_bfs(t_heap *heap);
-void					add_parents(t_htparent **parents, t_room *toadd,
-						t_room *end);
-void					get_shortest(t_room *room, t_room *end,
-						t_htparent **shortest, int *node_num);
-void					get_groups(t_ind *ices, t_data *data,
-						t_htgroup **groups);
-void					new_short(t_room *room, t_htparent **shortest);
-t_group					*choose_group(t_group *group);
-
-t_group					*sort_group(t_group **group);
-t_lemin					**convert_chosen_group(t_group *head);
-void					free_tab_2d_str(t_string **tab);
-void					tts_show_results(t_file *file, t_data *data,
-						t_ind *ices, t_lemin **room_list);
-
-void					tts_simulate_moves(int *current_ant, int ant_count,
-						t_lemin **room_list);
-t_room					*new_room(t_string line, int thisid);
-void					free_room_list(t_lemin ***list);
-
-void					print_data(t_data data);
-void					free_parents(t_htparent **parents);
-
+void			init_heap(t_heap *heap);
+void			free_bfs_queue(t_heap *heap);
+void			free_bfs_visited(t_heap *heap);
+void			bfs(t_ind *ices, t_heap *heap);
+t_bool			str_iscommand_comment(t_data *data, t_string line);
+t_bool			str_iscoords(t_string line);
+t_bool			str_room_link(t_string line);
+t_bool			before_links(t_data data);
+t_bool			valid_data(t_data data);
+void			get_next_node(t_htqueue **queue, t_room *room, t_room *end,
+				t_room *start);
+void			get_parent_node(t_htqueue **queue, t_room *room,
+				t_room *end, t_room *start);
+void			free_heap(t_heap **heap);
+void			choose_path(t_heap *heap, t_room *start, t_room *end);
+t_group			*choose_group(t_group *group);
+void			copy_to_chosen(int index, t_path *tmp,
+				t_group *head, t_lemin **chosen);
+t_lemin			**convert_chosen_group(t_group *head);
+void			quit(t_data *data, t_file **file, t_lemin ***room_list, int error);
+void			add_line(t_file **file, t_string newline);
+void			free_file(t_file **file);
+void			print_file(t_file *file);
+void			free_data(t_data *data);
+void			free_room_list(t_lemin ***list);
+void			free_groups(t_group **group);
+void			free_path(t_path **path);
+void			free_parents(t_htparent **parents);
+t_path			*new_path(t_room *room, t_ind *ices, int *node_num);
+void			get_path(t_room *room, t_ind *ices, t_htpath **paths,
+				int *node_num);
+t_group			*new_groups(t_ind *ices);
+void			get_groups(t_ind *ices, t_data *data, t_htgroup **groups);
+int				convert_letter(int c);
+long long		get_hash_id(t_string s);
+void			initialize_data(t_data *data, t_ind *ices,
+				t_file **file, t_lemin ***room_list);
+t_bool			get_ants(t_data *data, t_string line);
+t_bool			store_room(t_data *data, t_string line, t_ind *ices);
+t_bool			get_graph(t_data *data, t_string line, t_ind *ices);
+t_lemin			**dispatch_graph(t_ind *ices, t_data *data);
+t_link			*new_link(t_room *room);
+void			add_link(t_link **links, t_room *room);
+t_room			*find_node(long long link_id, char *name, t_data *data);
+t_bool			store_link(t_data *data, t_string line);
+void			free_links(t_link **links);
+t_parent		*new_parent(t_room *room);
+void			new_short(t_room *room, t_htparent **shortest);
+void			get_shortest(t_room *room, t_room *end,
+				t_htparent **shortest, int *node_num);
+int				tts_shift_path_ants(t_lemin *path);
+int				tts_advance_ants(int *current_ant, int ant_count,
+				t_lemin **room_list);
+void			tts_print_instruction(int id_ant, t_string room);
+void			tts_print_ants(t_lemin **room_list);
+void			tts_show_results(t_file *file, t_data *data,
+				t_ind *ices, t_lemin **room_list);
+t_queue			*new_node(t_room *room);
+void			enqueue(t_htqueue **queue, t_room *room);
+void			dequeue(t_htqueue **queue);
+void			unvisit(t_htqueue **queue);
+t_room			*new_room(t_string line, int thisid);
+long long		add_room(t_string line, t_data *data);
+void			store_start(t_string line, t_ind *ind, t_data *data);
+void			store_end(t_string line, t_ind *ind, t_data *data);
+void			free_room(t_room *room);
+void			tts_simulate_moves(int *current_ant, int ant_count,
+				t_lemin **room_list);
+int				check_links(t_link *links, t_room *room);
+void			update_minus_one(t_link *link, t_room *room);
+void			update_plus_one(t_link *link, t_room *room);
+void			update_graph(t_ind *ices);
 #endif

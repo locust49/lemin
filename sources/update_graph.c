@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   update_graph.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: otel-jac <otel-jac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/30 16:04:17 by slyazid           #+#    #+#             */
-/*   Updated: 2019/11/23 15:05:28 by slyazid          ###   ########.fr       */
+/*   Updated: 2019/12/04 15:24:53 by otel-jac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+int		check_links(t_link *links, t_room *room)
+{
+	t_link	*tmp;
+
+	tmp = links;
+	while (tmp)
+	{
+		if (tmp->to == room)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
 
 int		check_flow(t_link *links)
 {

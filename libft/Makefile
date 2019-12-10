@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: slyazid <slyazid@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/10/15 00:41:25 by slyazid           #+#    #+#              #
-#    Updated: 2019/07/12 17:13:37 by slyazid          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 PROJECT     = libft
 CC          = gcc
 FLAGS       = -Wall -Wextra -Werror
@@ -21,7 +9,7 @@ FILENAMES = ft_atoi.c ft_atoi_base.c ft_itoa.c  ft_lstmap.c  ft_memcpy.c ft_pute
 			ft_isalpha.c ft_lstdel.c ft_memalloc.c ft_memset.c ft_putnbr_fd.c ft_strcpy.c ft_strlcat.c ft_strnequ.c ft_strtrim.c\
 			ft_isascii.c ft_lstdel_elt.c ft_memccpy.c ft_putchar.c ft_putstr.c ft_strdel.c ft_strlen.c ft_strnew.c ft_strwcount.c\
 			ft_isdigit.c ft_lstdelone.c ft_memchr.c ft_putchar_fd.c ft_putstr_fd.c ft_strdup.c ft_strmap.c ft_strnstr.c ft_tolower.c\
-			ft_isprint.c ft_lstiter.c ft_memcmp.c ft_putendl.c ft_strcat.c ft_strequ.c ft_strmapi.c ft_strrchr.c ft_toupper.c 
+			ft_isprint.c ft_lstiter.c ft_memcmp.c ft_putendl.c ft_strcat.c ft_strequ.c ft_strmapi.c ft_strrchr.c ft_toupper.c ft_xor.c ft_ispnum.c
 
 ODIR		= obj
 HDR			=  libft.h
